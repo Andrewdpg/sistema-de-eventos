@@ -18,4 +18,4 @@ class UniversityRouter:
     def allow_migrate(self, db, app_label, model_name=None, **hints):
         if app_label == 'university':
             return db == 'university_db'
-        return False
+        return None

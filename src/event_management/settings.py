@@ -75,10 +75,16 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASE_ROUTERS = ['university.routers.university_router.UniversityRouter']
-
 DATABASES = {
     'default': {},
+    'django_db': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django-db',
+        'USER': 'university-admin',
+        'PASSWORD': 'university-admin',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    },
     'university_db': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'university-db',
@@ -89,6 +95,9 @@ DATABASES = {
     }
 }
 
+# DATABASES['default'] = DATABASES['django_db']
+
+DATABASE_ROUTERS = ['routers.university_router.UniversityRouter', 'routers.default_router.DefaultRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
