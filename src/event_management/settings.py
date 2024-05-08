@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'university',
 ]
 
 MIDDLEWARE = [
@@ -73,10 +74,20 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+DATABASE_ROUTERS = ['university.routers.university_router.UniversityRouter']
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'university_db': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'university-db',
+        'USER': 'university-admin',
+        'PASSWORD': 'university-admin',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
