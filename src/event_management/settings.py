@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'university',
+    'event_log',
 ]
 
 MIDDLEWARE = [
@@ -77,10 +78,7 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 DATABASE_ROUTERS = ['university.routers.university_router.UniversityRouter']
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
+    'default': {},
     'university_db': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'university-db',
