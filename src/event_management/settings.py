@@ -95,7 +95,7 @@ DATABASES = {
     }
 }
 
-# DATABASES['default'] = DATABASES['django_db']
+DATABASES['default'] = DATABASES['django_db']
 
 DATABASE_ROUTERS = ['routers.university_router.UniversityRouter', 'routers.default_router.DefaultRouter']
 
