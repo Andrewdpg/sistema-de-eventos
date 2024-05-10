@@ -1,49 +1,37 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import User
+from .serializers import UserSerializer
 
-def signup(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('home')
-        
-        else:
-            return render(request, 'users/signup.html', {'form': form})
-        
+@api_view(['POST'])
+@csrf_exempt
+def login_view(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+    user = authenticate(request, email=email, password=password)
+    if user is not None:
+        login(request, user)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
     else:
-        form = UserCreationForm()
-        return render(request, 'users/signup.html', {'form': form})
-    
-def signin(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
+        return Response({'error': 'Invalid email or password'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            msg = 'Error Login'
-            form = AuthenticationForm(request.POST)
-            return render(request, 'users/login.html', {'form': form, 'msg': msg})
-    else:
-        form = AuthenticationForm()
-        return render(request, 'users/login.html', {'form': form})
-    
-def signout(request):
+@api_view(['POST'])
+@csrf_exempt
+def logout_view(request):
     logout(request)
-    return redirect('home')
+    return Response({'success': 'Logged out successfully'})
+
+@api_view(['POST'])
+@csrf_exempt
+def signup_view(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
