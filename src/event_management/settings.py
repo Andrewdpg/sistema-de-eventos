@@ -77,15 +77,19 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 DATABASES = {
     'default': {},
     'django_db': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django-db',
-        'USER': 'university-admin',
-        'PASSWORD': 'university-admin',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'ENGINE': os.getenv('DJANGO_ENGINE'),
+        'NAME': os.getenv('DJANGO_NAME'),
+        'ENFORCE_SCHEMA': os.getenv('DJANGO_ENFORCE_SCHEMA'),
+        'CLIENT': {
+            'host': os.getenv('DJANGO_HOST'),
+        }  
     },
     'university_db': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -100,6 +104,8 @@ DATABASES = {
 DATABASES['default'] = DATABASES['django_db']
 
 DATABASE_ROUTERS = ['routers.university_router.UniversityRouter', 'routers.default_router.DefaultRouter']
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
