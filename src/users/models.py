@@ -17,11 +17,25 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class User(AbstractBaseUser):
-    email = models.EmailField(unique=True)
+    tipo_relacion_c = [
+        ('profesor', 'Profesor'),
+        ('estudiante', 'Estudiante'),
+        ('graduado', 'Graduado'),
+        ('empresario', 'Empresario'),
+        ('administrativo', 'Administrativo'),
+        ('directivo', 'Directivo'),
+    ]
+
+    tipo_relacion = models.CharField(choices=tipo_relacion_c) 
+    nombre_usuario = models.CharField(max_length=60)
+
+    identificacion = models.CharField(max_length=15, unique=True)
+    email = models.EmailField(max_length=30, unique=True)
+    
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    ciudad = models.IntegerField()
+
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'

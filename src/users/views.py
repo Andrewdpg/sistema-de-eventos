@@ -25,7 +25,8 @@ def login_view_test(request):
         return render(request, 'users/login.html', {'form': form})
 
 def home_view(request):
-    return render(request, 'pages/home.html')
+    userInfo = request.user.id
+    return render(request, 'pages/home.html', {'userInfo': userInfo})
 
 def logout_view(request):
     logout(request)
