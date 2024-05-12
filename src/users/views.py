@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .Loginform import LoginForm, RegisterForm
+from .Forms import LoginForm, RegisterForm
 
 def login_view_test(request):
     if request.user.is_authenticated:

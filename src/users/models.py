@@ -18,18 +18,18 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     tipo_relacion_c = [
-        ('profesor', 'Profesor'),
-        ('estudiante', 'Estudiante'),
-        ('graduado', 'Graduado'),
-        ('empresario', 'Empresario'),
-        ('administrativo', 'Administrativo'),
-        ('directivo', 'Directivo'),
+        ('profesor', 'profesor'),
+        ('estudiante', 'estudiante'),
+        ('graduado', 'graduado'),
+        ('empresario', 'empresario'),
+        ('administrativo', 'administrativo'),
+        ('directivo', 'directivo'),
     ]
+
+    identificacion = models.CharField(max_length=15, unique=True)
 
     tipo_relacion = models.CharField(choices=tipo_relacion_c) 
     nombre_usuario = models.CharField(max_length=60)
-
-    identificacion = models.CharField(max_length=15, unique=True)
     email = models.EmailField(max_length=30, unique=True)
     
     first_name = models.CharField(max_length=30)
@@ -38,7 +38,7 @@ class User(AbstractBaseUser):
 
     is_superuser = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'identificacion'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     objects = UserManager()
