@@ -23,3 +23,8 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+    
+class UserCreationForm_FirstStage(forms.Form):
+    identificacion = forms.CharField(max_length=15)
+    email = forms.EmailField(max_length=30)
+    codigo = forms.CharField(max_length=6)

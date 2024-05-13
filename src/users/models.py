@@ -28,7 +28,7 @@ class User(AbstractBaseUser):
 
     identificacion = models.CharField(max_length=15, unique=True)
 
-    tipo_relacion = models.CharField(choices=tipo_relacion_c) 
+    tipo_relacion = models.CharField(choices=tipo_relacion_c, max_length=20) 
     nombre_usuario = models.CharField(max_length=60)
     email = models.EmailField(max_length=30, unique=True)
     
@@ -45,3 +45,8 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+    
+class AuthenticationCodes(models.Model):
+    identificacion = models.CharField(max_length=15)
+    email = models.EmailField(max_length=30)
+    codigo = models.CharField(max_length=6, blank=True)
