@@ -42,7 +42,7 @@ class Departamentos(models.Model):
     )
 
 
-class Cuidades(models.Model):
+class Ciudades(models.Model):
     """
     Modelo de Ciudades
 
@@ -85,7 +85,7 @@ class Sedes(models.Model):
     )
 
     cod_ciudad = models.ForeignKey(
-        Cuidades,
+        Ciudades,
         on_delete=models.CASCADE
     )
 
@@ -172,7 +172,7 @@ class Empleados(models.Model):
     )
 
     lugar_nacimiento = models.ForeignKey(
-        Cuidades,
+        Ciudades,
         on_delete=models.CASCADE
     )
 
@@ -207,7 +207,9 @@ class Facultades(models.Model):
 
     id_decano = models.ForeignKey(
         'Empleados',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        db_index=True,
+        null=True
     )
 
 
@@ -232,12 +234,15 @@ class Areas(models.Model):
 
     codigo_facultades = models.ForeignKey(
         Facultades,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True
     )
 
     id_coordinador = models.ForeignKey(
         Empleados,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        db_index=True,
+        null=True
     )
 
 
