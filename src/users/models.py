@@ -1,52 +1,56 @@
-from django.db import models
+# from django.db import models
+from djongo import models 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
-        if not email:
-            raise ValueError('The Email field must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+from pymongo import MongoClient
+from .mongodb_documents import document_base_user
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+client = MongoClient(os.getenv('DJANGO_HOST'))
+db = client['django_db']
+collection = db['users_customuser']
+
+class CustomAccountManager(BaseUserManager):
+
+    def create_superuser(self, identificacion, nombre_usuario, password, **other_fields):
+        other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('_id', identificacion)
+
+        return self.create_user(identificacion, nombre_usuario, password,  **other_fields)
+
+    # TODO: Esto va para despues (ya que no tiene nada que ver con el register o parecidos)
+    def create_user(self, identificacion, nombre_usuario, password, **other_fields):
+        
+        if not identificacion:
+            raise ValueError('Debe ingresar un email')
+
+        user = self.model(identificacion=identificacion, nombre_usuario=nombre_usuario, **other_fields)
         user.set_password(password)
-        user.save(using=self._db)
+
+        base_user = document_base_user(nombre_usuario, user.password, identificacion, user.is_superuser)
+        collection.insert_one(base_user)
+        user = collection.find_one({'identificacion': identificacion})
+        # en resumen, mirar si puedo guardar la id y crear la instancia del usuario sin problemas
         return user
+    
 
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email, password, **extra_fields)
-
-class User(AbstractBaseUser):
-    tipo_relacion_c = [
-        ('profesor', 'profesor'),
-        ('estudiante', 'estudiante'),
-        ('graduado', 'graduado'),
-        ('empresario', 'empresario'),
-        ('administrativo', 'administrativo'),
-        ('directivo', 'directivo'),
-    ]
+class CustomUser(AbstractBaseUser):
+    _id = models.ObjectIdField(primary_key=True)
 
     identificacion = models.CharField(max_length=15, unique=True)
-
-    tipo_relacion = models.CharField(choices=tipo_relacion_c, max_length=20) 
     nombre_usuario = models.CharField(max_length=60)
-    email = models.EmailField(max_length=30, unique=True)
     
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    ciudad = models.IntegerField()
-
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'identificacion'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ['nombre_usuario']
 
-    objects = UserManager()
+    objects = CustomAccountManager()
 
-    def __str__(self):
-        return self.email
-    
 class AuthenticationCodes(models.Model):
-    identificacion = models.CharField(max_length=15)
-    email = models.EmailField(max_length=30)
-    codigo = models.CharField(max_length=6, blank=True)
+    codigo_url = models.CharField(max_length=30, primary_key=True)
+    code = models.CharField(max_length=6)
+    empleado_id = models.CharField(max_length=15)
