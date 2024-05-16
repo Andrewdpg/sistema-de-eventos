@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import make_password
 
-from ..forms import CustomUserCreationForm
-from ..forms import UserCreationForm_FirstStage
+from ..forms import CustomUserCreationForm, UserCreationForm_FirstStage, UserCreationForm_SecondStage, EmployeeCreationForm
 from ..mongodb_documents import document_employee
 
 from university.models import Empleados
@@ -16,10 +15,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 client = MongoClient(os.getenv('DJANGO_HOST'))
-db = client['django_db']
-collection = db['users_customuser']
-
-# TODO: CAMBIAR LA COLECCION PÂRA LOS DIFERENTES USERS
+db = client[os.getenv('DJANGO_NAME')]
+collection = db[os.getenv('DJANGO_USERS_COLLECTION')]
 
 def signup_view(request):
     if request.user.is_authenticated:
@@ -35,7 +32,6 @@ def signup_first_stage(request):
         try:
             empleado = Empleados.objects.get(identificacion=identificacion)
 
-            #TODO
             if empleado.email == email:
                 codigo = secrets.token_hex(3)
 
@@ -43,8 +39,8 @@ def signup_first_stage(request):
                 codigo_urlsafe = base64.urlsafe_b64encode(codigo_url.encode()).decode()
 
                 # TODO: Enviar codigo por email
-                auth_register = AuthenticationCodes(codigo_url=codigo_urlsafe, code=codigo, empleado_id=empleado.identificacion)
-                auth_register.save()
+                auth_code = AuthenticationCodes(codigo_url=codigo_urlsafe, code=codigo, empleado_id=empleado.identificacion)
+                auth_code.save()
 
                 return redirect('signup_auth', codigo_urlsafe=codigo_urlsafe)
             
@@ -65,21 +61,33 @@ def signup_first_stage(request):
         #TODO: cambiar forms
         form = UserCreationForm_FirstStage()
         return render(request, 'users/signup.html', {'form': form})
-    
-def signup_validation_view(request, codigo_urlsafe):
+
+# Validar el codigo de autenticacion enviado al correo
+def signup_validation_view(request, codigo_urlsafe):  
     if request.method == 'POST':
-        verification_code = request.POST.get('codigo')
+        form = UserCreationForm_SecondStage(request.POST)
+        err_msg = ''
+
+        if form.is_valid():
+            pass
+        else:
+            err_msg = 'Mensaje de Error'
+            return render(request, 'users/signup.html', {'form': form, 'err_msg': err_msg})
+
+        user_auth_code = form.cleaned_data.get('codigo')
         to_redirect = ''
         try:
             auth_code = AuthenticationCodes.objects.get(codigo_url=codigo_urlsafe)
 
-            if auth_code.code == verification_code:
-                return redirect('signup_employee', codigo_urlsafe=codigo_urlsafe, codigo_auth=verification_code)
+            if auth_code.code == user_auth_code:
+                return redirect('signup_employee', codigo_urlsafe=codigo_urlsafe, codigo_auth=user_auth_code)
             else:
+                # auth_code.delete()
+                err_msg = 'Mensaje de Error'
                 # Error de autenticacion el codigo no existe
                 pass
 
-            # auth_code.delete()
+            
             return redirect(to_redirect)
 
         except ObjectDoesNotExist:
@@ -88,27 +96,35 @@ def signup_validation_view(request, codigo_urlsafe):
 
         pass
     else:
-        #TODO: cambiar forms
-        form = UserCreationForm_FirstStage()
+        form = UserCreationForm_SecondStage()
         return render(request, 'users/signup.html', {'form': form})
 
 def signup_employee(request, codigo_urlsafe, codigo_auth):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = EmployeeCreationForm(request.POST)
         if form.is_valid():
             auth_code = AuthenticationCodes.objects.get(codigo_url=codigo_urlsafe)
-            auth_code.delete()
-            identificacion = form.cleaned_data['identificacion']
-            nombre_usuario = form.cleaned_data['nombre_usuario']
-            password1 = form.cleaned_data['password1']
-            password = make_password(password1)
+            identificacion = auth_code.empleado_id
 
-            document = document_employee(nombre_usuario, password, identificacion)
-            collection.insert_one(document)
+            if (auth_code.code== codigo_auth):
 
-            return redirect('exito')
+                auth_code.delete()
+
+                nombre_usuario = form.cleaned_data['nombre_usuario']
+                password1 = form.cleaned_data['password1']
+                password = make_password(password1)
+
+                document_employe = document_employee(nombre_usuario, password, identificacion)
+                collection.insert_one(document_employe)
+
+                return redirect('exito')
+            
+            else:
+                # Intento de falsificacion rey, salga de ahi
+                pass
+
     else:
-        form = CustomUserCreationForm()
+        form = EmployeeCreationForm()
         return render(request, 'users/signup.html', {'form': form})
     
 def exito(request):

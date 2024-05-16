@@ -41,7 +41,7 @@ class CustomUser(AbstractBaseUser):
     _id = models.ObjectIdField(primary_key=True)
 
     identificacion = models.CharField(max_length=15, unique=True)
-    nombre_usuario = models.CharField(max_length=60)
+    nombre_usuario = models.CharField(max_length=36)
     
     is_superuser = models.BooleanField(default=False)
 
