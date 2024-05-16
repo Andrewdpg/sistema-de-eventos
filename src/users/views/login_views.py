@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from ..forms import CustomLoginForm
+from django.db import DatabaseError
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -12,8 +13,13 @@ def login_view(request):
         user = authenticate(request, identificacion=identificacion, password=password)
 
         if user is not None:
-            login(request, user)
-            return redirect('home')
+            try:
+                login(request, user, backend='users.backends.CustomUserBackend')
+                return redirect('home')
+            except DatabaseError as e:
+                print(user.identificacion)
+                print(user.password)
+                print("Aqui ocurrio el error: " + str(e))
         else:
             msg = 'Error Login'
             form = CustomLoginForm(request.POST)

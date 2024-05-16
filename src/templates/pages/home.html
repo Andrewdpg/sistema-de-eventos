@@ -5,10 +5,10 @@
 {% block content %}
     <h1>Home</h1>
     {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}</p>
+        <p>Welcome, {{ user.nombre_usuario }}</p>
         <a href="{% url 'signout' %}" class="btn btn-danger">Logout</a>
 
-        <p>Id: {{ userInfo }}</p>
+        <p>Id: hola como andamos</p>
 
     {% else %}
         <a href="{% url 'signin' %}" class="btn btn-primary">Login</a>
