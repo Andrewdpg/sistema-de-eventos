@@ -42,9 +42,9 @@ class CustomUserCreationForm(UserCreationForm):
     tipo_empleado = forms.CharField(max_length=20)
     email = forms.EmailField(max_length=30)
     # Revisar el tema de hacer CHOICES
-    pais = forms.CharField(max_length=20)
-    departamento = forms.CharField(max_length=20)
-    ciudad = forms.CharField(max_length=20)
+    # pais = forms.CharField(max_length=20)
+    # departamento = forms.CharField(max_length=20)
+    # ciudad = forms.CharField(max_length=20)
 
     class Meta:
         model = CustomUser
