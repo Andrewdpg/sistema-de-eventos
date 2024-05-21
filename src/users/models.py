@@ -3,7 +3,6 @@ from djongo import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 from pymongo import MongoClient
-from .mongodb_documents import document_base_user
 
 import os
 from dotenv import load_dotenv
