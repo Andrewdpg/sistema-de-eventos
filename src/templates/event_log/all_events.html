@@ -1,0 +1,24 @@
+{% extends "root.html" %}
+
+{% load templatetags %}
+
+{% block content %}
+    
+    {% for event in events %}
+        <img src="{{ event.imagen.url }}" alt="{{ event.titulo }}" width="100" height="100">
+        <p>{{ event.titulo }}</p>
+
+        {% for categoria in event.categorias %}
+            <p>{{ categoria.nombre }}</p>
+        {% endfor %}
+
+        <p>{{ event.descripcion }}</p>
+        <p>{{ event.fecha }}</p>
+        <p>{{ event.lugar_evento }}</p>
+
+        <a href="{% url 'view_event' event_id=event|get_item:'_id' %}"><button>Ver Detalles</button></a>
+    {% endfor %}
+
+    
+
+{% endblock content %}

@@ -8,11 +8,10 @@
             <p>
                 {{ field.label_tag }}<br>
                 {{ field }}
-                {% for error in field.errors %}
-                    <small style="color: red;">{{ error }}</small>
-                {% endfor %}
             </p>
         {% endfor %}
+        <small style="color: red;">{{ err }}</small>
+        <br>
         <button type="submit" class="btn btn-success">Sign Up</button>
     </form>
 {% endblock content %}

@@ -1,0 +1,28 @@
+{% extends "root.html" %}
+
+{% block content %}
+    <p>{{ event.img_url }}</p>
+    <p>{{ event.titulo }}</p>
+    <p>{{ event.fecha }}</p>
+    <p>{{ event.lugar }}</p>
+    
+    {% for categoria in event.categorias %}
+        <p>{{ categoria.nombre }}</p>
+    {% endfor %}
+    
+    <p>{{ event.descripcion }}</p>
+
+    {% for comentario in event.comentarios %}
+        <p>{{ comentario.img_url }}</p>
+        <p>{{ comentario.nombre_usuario }}</p>
+        <p>{{ comentario.comentario }}</p>
+    {% endfor %}
+
+    <p>{{ event.conferencistas }}</p>
+    <p>{{ event.facilitadores }}</p>
+    
+    {% for orgnizador in event.orgnizadores %}
+        <p>{{ orgnizador.nombre }}</p>
+    {% endfor %}
+
+{% endblock content %}
