@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseNotFound
 
 from ..forms import CustomUserCreationForm, UserCreationForm_FirstStage, UserCreationForm_SecondStage, EmployeeCreationForm
-from ..mongodb_documents import document_employee, document_user
+from mongodb_documents import employee_doc, user_doc
 
 from ..models import AuthenticationCodes
 from connections import universitydb
@@ -119,8 +119,8 @@ def signup_employee(request, codigo_urlsafe, codigo_auth):
             password1 = form.cleaned_data['password1']
             password = make_password(password1)
 
-            document_employee_i = document_employee(nombre_usuario, password, identificacion)
-            collection.insert_one(document_employee_i)
+            employee_doc_i = employee_doc(nombre_usuario, password, identificacion)
+            collection.insert_one(employee_doc_i)
 
             auth_code.delete()
             
@@ -142,7 +142,7 @@ def signup_user(request):
         cleaned_data = form.cleaned_data
         password = make_password(cleaned_data['password1'])
             
-        document_user_i = document_user(
+        user_doc_i = user_doc(
             identificacion=cleaned_data['identificacion'],
             nombres=cleaned_data['nombres'],
             apellidos=cleaned_data['apellidos'],
@@ -155,7 +155,7 @@ def signup_user(request):
             password=password
         )
         
-        collection.insert_one(document_user_i)
+        collection.insert_one(user_doc_i)
     
         return redirect('exito')
     
