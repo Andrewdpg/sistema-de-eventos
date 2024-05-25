@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from bson.objectid import ObjectId
-from ..collections import evento, categorias
-
+from connections import universitydb, evento, categorias
 
 from datetime import datetime
 
@@ -27,3 +26,19 @@ def event_detail(request, event_id):
     event = evento.find_one({'_id' : ObjectId(event_id)})
 
     return render(request, 'event_log/event_detail.html', {'event': event})
+
+def create_event(request):
+    cur = universitydb.cursor()
+
+    cur.execute('SELECT codigo, nombre FROM eventos.programas')
+    programas = cur.fetchall()
+
+    cur.execute('SELECT codigo, nombre FROM eventos.paises')
+    paises = cur.fetchall()
+
+    cur.execute('SELECT codigo, nombre FROM eventos.facultades')
+    facultades = cur.fetchall()
+    
+    cur.close()
+        
+    return render(request, 'event_log/create_event.html', {'programas': programas, 'paises': paises, 'facultades': facultades})

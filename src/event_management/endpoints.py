@@ -55,7 +55,7 @@ def create_event(request):
         lugar = json.loads(form_data.get('lugar'))
         categorias = json.loads(form_data.get('categorias'))
 
-        conferencistas = form_data.get('conferencistas')
+        conferencistas = json.loads(form_data.get('conferencistas'))
         facilitadores = json.loads(form_data.get('facilitadores'))
         facultades_org = json.loads(form_data.get('facultades_org'))
         programa_org = form_data.get('programa_org')

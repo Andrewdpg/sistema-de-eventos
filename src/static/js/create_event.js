@@ -57,7 +57,7 @@ function submitForm() {
 
     lugar.push(ubicacion);
 
-    let programa_org = document.getElementById("programa_org").text;
+    let programa_org = document.getElementById("programa_org").value;
 
     formData.append('titulo', titulo);
     formData.append('descripcion', descripcion);
