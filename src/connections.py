@@ -9,6 +9,7 @@ db = client['django_db']
 
 evento = db['evento']
 categorias = db['categorias']
+users = db['users_customuser']
 
 universitydb = psycopg2.connect(
     dbname=os.getenv('UNIVERSITY_DB'),
