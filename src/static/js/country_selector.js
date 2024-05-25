@@ -13,6 +13,7 @@ document.getElementById('paises').addEventListener('change', function() {
             
             for (var i = 0; i < data.length; i++) {
                 option = document.createElement('option');
+                option.data = data[i][1];
                 option.value = data[i][0];  // codigo
                 option.text = data[i][1];  // nombre
                 select.appendChild(option);
@@ -35,6 +36,7 @@ document.getElementById('departamentos').addEventListener('change', function() {
             
             for (var i = 0; i < data.length; i++) {
                 option = document.createElement('option');
+                option.data = data[i][1];
                 option.value = data[i][0];  // codigo
                 option.text = data[i][1];  // nombre
                 select.appendChild(option);
