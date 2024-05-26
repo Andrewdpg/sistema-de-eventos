@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from bson.objectid import ObjectId
 from connections import universitydb, evento, categorias
+from mongodb_documents import comentario_doc
 
 from datetime import datetime
 
@@ -21,11 +22,27 @@ def actual_events(request):
     return render(request, 'event_log/all_events.html', {'events': events})
 
 def event_detail(request, event_id):
-    # Busqueda: Se hace una busqueda de un evento en especifico por su _id
+    if request.method == 'POST':
 
-    event = evento.find_one({'_id' : ObjectId(event_id)})
+        comentario = request.POST.get('comentario')
+        fecha = datetime.today()
+        fecha = datetime(fecha.year, fecha.month, fecha.day)
+        usuario = request.user.identificacion
 
-    return render(request, 'event_log/event_detail.html', {'event': event})
+        comentario_to_i = comentario_doc(
+            comentario=comentario, 
+            fecha=fecha, 
+            usuario=usuario
+        )
+        
+        # Insert: Ser inserta un comentario del usuario en un evento en especifico
+        evento.update_one({'_id': ObjectId(event_id)}, {'$push': {'comentarios': comentario_to_i}})
+        return redirect('view_event', event_id=event_id)
+    
+    else:
+        # Busqueda: Se hace una busqueda de un evento en especifico por su _id
+        event = evento.find_one({'_id' : ObjectId(event_id)})
+        return render(request, 'event_log/event_detail.html', {'event': event})
 
 def create_event(request):
     cur = universitydb.cursor()

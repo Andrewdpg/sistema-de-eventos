@@ -65,3 +65,12 @@ def evento_doc(titulo, descripcion, categorias, fecha, lugar_datos, conferencist
         event_document["img_url"] = img_url
 
     return event_document
+
+def comentario_doc(comentario, fecha, usuario):
+    comentario = {
+        "comentario": comentario,
+        "fecha": fecha,
+        "usuario": usuario,
+    }
+
+    return comentario

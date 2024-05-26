@@ -25,4 +25,10 @@
         <p>{{ orgnizador.nombre }}</p>
     {% endfor %}
 
+    <form id="caja-cometnarios" method="post">
+        {% csrf_token %}
+        <textarea name="comentario" id="comentario"></textarea>
+        <input type="submit" value="Comentar">
+    </form>
+
 {% endblock content %}
