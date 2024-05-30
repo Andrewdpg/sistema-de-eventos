@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseNotFound
+from django.contrib.auth import authenticate, login
 
 from ..forms import CustomUserCreationForm, UserCreationForm_FirstStage, UserCreationForm_SecondStage, EmployeeCreationForm
 from mongodb_documents import employee_doc, user_doc
@@ -52,7 +53,7 @@ def signup_first_stage(request):
 
                 codigo_url = secrets.token_hex(3);
                 codigo_urlsafe = base64.urlsafe_b64encode(codigo_url.encode()).decode()
-
+                
                 auth_code = AuthenticationCodes(codigo_url=codigo_urlsafe, code=codigo, empleado_id=empleado[0])
                 auth_code.save()
 
@@ -79,23 +80,15 @@ def signup_validation_view(request, codigo_urlsafe):
 
     if request.method == 'POST':
         form = UserCreationForm_SecondStage(request.POST)
-
+        
         if form.is_valid():
             user_auth_code = form.cleaned_data.get('codigo')
-            to_redirect = ''
-        else:
-            # Error de validacion
-            pass
 
         if auth_code.code == user_auth_code:
             return redirect('signup_employee', codigo_urlsafe=codigo_urlsafe, codigo_auth=user_auth_code)
         else:
-            # auth_code.delete()
-            err_msg = 'Mensaje de Error'
-            # Error de autenticacion el codigo no existe
-            pass
-
-        return redirect(to_redirect)
+            err = 'El codigo ingresado no es valido'
+            return render(request, 'users/auth_code.html', {'form': form, 'err': err})
 
     else:
         form = UserCreationForm_SecondStage()
@@ -123,14 +116,16 @@ def signup_employee(request, codigo_urlsafe, codigo_auth):
 
             employee_doc_i = employee_doc(nombre_usuario, password, identificacion)
             collection.insert_one(employee_doc_i)
-
             auth_code.delete()
-            
-            return redirect('exito')
+
+            user = authenticate(request, identificacion=identificacion, password=password1)
+            login(request, user, backend='users.backends.CustomUserBackend')
+
+            return redirect('home')
             
     else:
         form = EmployeeCreationForm()
-        return render(request, 'users/signup.html', {'form': form})
+        return render(request, 'users/signup_employee.html', {'form': form})
 
 def signup_user(request):
     cur = universitydb.cursor()
