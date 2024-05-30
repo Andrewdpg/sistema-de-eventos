@@ -3,8 +3,15 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
 
 class UserCreationForm_FirstStage(forms.Form):
-    identificacion = forms.CharField(max_length=15)
-    email = forms.EmailField(max_length=30)
+    identificacion = forms.CharField(
+        max_length=15,
+        widget=forms.TextInput(attrs={'placeholder': 'Identificación'})
+    )
+
+    email = forms.EmailField(
+        max_length=30,
+        widget=forms.EmailInput(attrs={'placeholder': 'Email'})    
+    )
 
 class UserCreationForm_SecondStage(forms.Form):
     c1 = forms.CharField(max_length=1)
