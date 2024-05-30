@@ -9,6 +9,7 @@ from mongodb_documents import employee_doc, user_doc
 from ..models import AuthenticationCodes
 from connections import universitydb
 from pymongo import MongoClient
+from users.email_sender import send_email
 
 import secrets, base64
 import os
@@ -45,25 +46,26 @@ def signup_first_stage(request):
         empleado = cur.fetchone()
         cur.close()
 
-        if empleado is None:
-            return signup_user(request)
-        else:
-    
-            if empleado[0][1] == email:
+        if empleado is not None:
+            if empleado[1] == email:
                 codigo = secrets.token_hex(3)
 
                 codigo_url = secrets.token_hex(3);
                 codigo_urlsafe = base64.urlsafe_b64encode(codigo_url.encode()).decode()
 
-                # TODO: Enviar codigo por email
-                auth_code = AuthenticationCodes(codigo_url=codigo_urlsafe, code=codigo, empleado_id=empleado.identificacion)
+                auth_code = AuthenticationCodes(codigo_url=codigo_urlsafe, code=codigo, empleado_id=empleado[0])
                 auth_code.save()
+
+                send_email(email, codigo)
 
                 return redirect('signup_auth', codigo_urlsafe=codigo_urlsafe)
             
             else:
                 err = "La identificacion o email no coinciden"
-                return render(request, 'users/signup.html', {'form': form, 'err': err})            
+                return render(request, 'users/signup.html', {'form': form, 'err': err})   
+                     
+        else:
+            return signup_user(request)
 
     else:
         return render(request, 'users/signup.html', {'form': form})
@@ -97,7 +99,7 @@ def signup_validation_view(request, codigo_urlsafe):
 
     else:
         form = UserCreationForm_SecondStage()
-        return render(request, 'users/signup.html', {'form': form})
+        return render(request, 'users/auth_code.html', {'form': form})
 
 def signup_employee(request, codigo_urlsafe, codigo_auth):
     try:
