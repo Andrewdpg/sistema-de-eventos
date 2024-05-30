@@ -1,18 +1,26 @@
 {% extends "root.html" %}
 
+{% block title %}
+    Verificación de Código
+{% endblock title %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/auth_code.css' %}">
+{% endblock stylesheet %}
+
 {% block content %}
-    <h2>Codigo Autentificación</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {% for field in form %}
-            <p>
-                {{ field.label_tag }}<br>
-                {{ field }}
-                {% for error in field.errors %}
-                    <small style="color: red;">{{ error }}</small>
+    <div class="form-container">
+        <h2>Ingresa el código de verificación</h2>
+        <p>Enviamos el código de verificación a tu correo.</p>
+        <form method="POST">
+            {% csrf_token %}
+            <div name="code-container">
+                {% for code_field in form %}
+                    {{ code_field }}
                 {% endfor %}
-            </p>
-        {% endfor %}
-        <button type="submit" class="btn btn-success">Confirmar Codigo</button>
-    </form>
+            </div>
+            <button type="submit" class="btn btn-success">Confirmar Codigo</button>
+        </form>
+    </div>
 {% endblock content %}

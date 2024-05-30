@@ -14,12 +14,35 @@ class UserCreationForm_FirstStage(forms.Form):
     )
 
 class UserCreationForm_SecondStage(forms.Form):
-    c1 = forms.CharField(max_length=1)
-    c2 = forms.CharField(max_length=1)
-    c3 = forms.CharField(max_length=1)
-    c4 = forms.CharField(max_length=1)
-    c5 = forms.CharField(max_length=1)
-    c6 = forms.CharField(max_length=1)
+    c1 = forms.CharField(
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'code_field'})
+    )
+
+    c2 = forms.CharField(
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'code_field'})
+    )
+
+    c3 = forms.CharField(
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'code_field'})
+    )
+
+    c4 = forms.CharField(
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'code_field'})
+    )
+
+    c5 = forms.CharField(
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'code_field'})
+    )
+
+    c6 = forms.CharField(
+        max_length=1,
+        widget=forms.TextInput(attrs={'class': 'code_field'})
+    )
 
     def clean(self):
         cleaned_data = super().clean()
