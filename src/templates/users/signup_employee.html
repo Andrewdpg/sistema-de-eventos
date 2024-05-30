@@ -1,0 +1,23 @@
+{% extends "root.html" %}
+
+{% block title %}
+    Sign In
+{% endblock title %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/signup_employee.css' %}">
+{% endblock stylesheet %}
+
+{% block content %}
+    <div class="container">
+        <form method="POST">
+            <h1>Registrarse, Usuario</h1>
+            {% csrf_token %}
+            {{ form.nombre_usuario }}
+            {{ form.password1 }}
+            {{ form.password2 }}
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </form>        
+    </div>
+{% endblock content %}

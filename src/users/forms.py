@@ -62,6 +62,12 @@ class EmployeeCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('nombre_usuario', 'password1', 'password2')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nombre_usuario'].widget.attrs.update({'placeholder': 'Nombre de Usuario'})
+        self.fields['password1'].widget.attrs.update({'placeholder': 'Contraseña'})
+        self.fields['password2'].widget.attrs.update({'placeholder': 'Confirmar Contraseña'})
+
 class CustomLoginForm(forms.Form):
     identificacion = forms.CharField(
         max_length=15,
