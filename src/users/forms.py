@@ -33,8 +33,14 @@ class EmployeeCreationForm(UserCreationForm):
         fields = ('nombre_usuario', 'password1', 'password2')
 
 class CustomLoginForm(forms.Form):
-    identificacion = forms.CharField(max_length=15)
-    password = forms.CharField(widget=forms.PasswordInput)
+    identificacion = forms.CharField(
+        max_length=15,
+        widget=forms.TextInput(attrs={'placeholder': 'Identificación'})
+    )
+
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'})
+    )
 
 class CustomUserCreationForm(UserCreationForm):
     nombres = forms.CharField(max_length=30)
