@@ -9,7 +9,7 @@ def employee_doc(nombre_usuario, password, identificacion):
 
     return employee
 
-def user_doc(identificacion, nombre_usuario, password, nombres, apellidos, tipo_empleado, email, pais, departamento, ciudad):
+def document_user(identificacion, nombre_usuario, password, nombres, apellidos, tipo_relacion, email, ciudad):
     user = {
         "last_login": None,
         "identificacion": identificacion,
@@ -18,10 +18,8 @@ def user_doc(identificacion, nombre_usuario, password, nombres, apellidos, tipo_
         "is_superuser": False,
         "nombres": nombres,
         "apellidos": apellidos,
-        "tipo_empleado": tipo_empleado,
+        "tipo_relacion": tipo_relacion,
         "email": email,
-        "pais": pais,
-        "departamento": departamento,
         "ciudad": ciudad,
     }
 

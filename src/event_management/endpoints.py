@@ -1,9 +1,11 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from connections import universitydb, users, evento
-from mongodb_documents import evento_doc
+from mongodb_documents import evento_doc, document_user
 from datetime import datetime
 import json
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate, login
 
 def get_departamentos(request):
     pais_id = request.GET.get('pais_id')
@@ -87,6 +89,44 @@ def create_event(request):
         print('Facilitadores:', facilitadores)
         print('Facultades organizadoras:', facultades_org)
         print('Programa organizador:', programa_org)
+
+        return JsonResponse({'status': 'success'}, status=200)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+    
+@csrf_exempt
+def create_normal_user(request):
+    if request.method == 'POST':
+        # Parsear los datos del formulario a JSON
+        form_data = json.loads(request.body)
+
+        # Extraer los datos del formulario
+        identificacion = form_data.get('identificacion')
+        email = form_data.get('email')
+        nombres = form_data.get('nombres')
+        apellidos = form_data.get('apellidos')
+        nombre_usuario = form_data.get('nombre_usuario')
+
+        password1 = form_data.get('password1')
+        password = make_password(password1)
+
+        tipo_relacion = form_data.get('tipo_relacion')
+        ciudad = json.loads(form_data.get('ciudad'))
+
+        user_to_insert = document_user(
+            identificacion=identificacion, 
+            email=email, 
+            nombres=nombres, 
+            apellidos=apellidos, 
+            nombre_usuario=nombre_usuario, 
+            password=password, 
+            ciudad=ciudad,
+            tipo_relacion=tipo_relacion
+        )
+
+        users.insert_one(user_to_insert)
+        user = authenticate(request, identificacion=identificacion, password=password1)
+        login(request, user, backend='users.backends.CustomUserBackend')
 
         return JsonResponse({'status': 'success'}, status=200)
     else:

@@ -12,4 +12,5 @@ urlpatterns = [
     path('get_ciudades/', endpoints.get_ciudades, name=''),
     path('get_conferencistas/', endpoints.get_conferencistas, name=''),
     path('create_event/', endpoints.create_event, name=''),
+    path('create_normal_user/', endpoints.create_normal_user, name=''),
 ]

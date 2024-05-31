@@ -5,7 +5,7 @@ from django.http import HttpResponseNotFound
 from django.contrib.auth import authenticate, login
 
 from ..forms import CustomUserCreationForm, UserCreationForm_FirstStage, UserCreationForm_SecondStage, EmployeeCreationForm
-from mongodb_documents import employee_doc, user_doc
+from mongodb_documents import employee_doc, document_user
 
 from ..models import AuthenticationCodes
 from connections import universitydb
@@ -135,29 +135,7 @@ def signup_user(request):
 
     form = CustomUserCreationForm(request.POST or None)
 
-    if form.is_valid():
-        cleaned_data = form.cleaned_data
-        password = make_password(cleaned_data['password1'])
-            
-        user_doc_i = user_doc(
-            identificacion=cleaned_data['identificacion'],
-            nombres=cleaned_data['nombres'],
-            apellidos=cleaned_data['apellidos'],
-            tipo_empleado=cleaned_data['tipo_empleado'],
-            email=cleaned_data['email'],
-            pais=request.POST.get('paises'),
-            departamento=request.POST.get('departamentos'),
-            ciudad=request.POST.get('ciudades'),
-            nombre_usuario=cleaned_data['nombre_usuario'],
-            password=password
-        )
-        
-        collection.insert_one(user_doc_i)
-    
-        return redirect('exito')
-    
-    else:
-        return render(request, 'users/signup_user.html', {'form': form, 'paises': paises})
+    return render(request, 'users/signup_user.html', {'form': form, 'paises': paises})
 
 def exito(request):
     return render(request, 'users/exito.html')

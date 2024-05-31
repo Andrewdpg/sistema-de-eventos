@@ -1,49 +1,57 @@
 {% extends "root.html" %}
 
+{% block title %}
+    Registrarse
+{% endblock title %}
+
 {% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/signup_user.css' %}">
+{% endblock stylesheet %}
 
-{% block content %}
-    <h2>Sign Up</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {% for field in form %}
-            <p>
-                {{ field.label_tag }}<br>
-                {{ field }}
-            </p>
-        {% endfor %}
-        
-        <div>
-            <label for="pais">pais</label>
-            <select name="paises" id="paises">
-                <option value="0">Pais</option>
-                {% for pais in paises %}
-                <option value="{{ pais.0 }}">{{ pais.1 }}</option>            
-                {% endfor %}
-            </select>
-        </div>
-
-        <div>
-            <label for="departamento">departamento</label>
-            <select name="departamentos" id="departamentos">
-                <option value="0">Departamento</option>
-            </select>
-        </div>       
-
-        <div>
-            <label for="ciudad">ciudad</label>
-            <select name="ciudades" id="ciudades">
-                <option value="0">Ciudad</option>
-            </select>
-        </div>
-        
-
-        <small style="color: red;">{{ err }}</small>
-        <br>
-        <button type="submit" class="btn btn-success">Sign Up</button>
-    </form>
-
+{% block content %} 
+    <div class="container">
+        <form method="POST">
+            <h2>Registrarse</h2>
+            {% csrf_token %}
+            {{ form.identificacion }}
+            {{ form.email }}
+            
+            {{ form.nombres }}
+            {{ form.apellidos }}
+            {{ form.nombre_usuario}}
+            
+            {{ form.password1 }}
+            {{ form.password2 }}
+            
+            {{ form.tipo_empleado }}
+            
+            <div>
+                <label for="pais">pais</label>
+                <select name="paises" id="paises">
+                    <option value="0">Pais</option>
+                    {% for pais in paises %}
+                    <option value="{{ pais.0 }}">{{ pais.1 }}</option>            
+                    {% endfor %}
+                </select>
+                
+                <label for="departamento">departamento</label>
+                <select name="departamentos" id="departamentos">
+                    <option value="0">Departamento</option>
+                </select>
+                
+                <label for="ciudad">ciudad</label>
+                <select name="ciudades" id="ciudades">
+                    <option value="0">Ciudad</option>
+                </select>
+            </div>
     
-    <script src="{% static 'js/country_selector.js' %}"></script>
+            <small style="color: red;">{{ err }}</small>
+            <br>
+            <button type="button" class="btn btn-success" onclick="submitForm()">Sign Up</button>
+        </form>    
+    </div>  
 
+    <script src="{% static 'js/country_selector.js' %}"></script>
+    <script src="{% static 'js/create_normal_user.js' %}"></script>
 {% endblock content %}

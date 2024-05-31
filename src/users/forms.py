@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
+from connections import universitydb
 
 class UserCreationForm_FirstStage(forms.Form):
     identificacion = forms.CharField(
@@ -79,10 +80,22 @@ class CustomLoginForm(forms.Form):
     )
 
 class CustomUserCreationForm(UserCreationForm):
-    nombres = forms.CharField(max_length=30)
-    apellidos = forms.CharField(max_length=30)
-    tipo_empleado = forms.CharField(max_length=20)
-    email = forms.EmailField(max_length=30)
+    nombres = forms.CharField(
+        max_length=30,
+         widget=forms.TextInput(attrs={'placeholder': 'nombre(s)'})
+    )
+
+    apellidos = forms.CharField(
+        max_length=30,
+         widget=forms.TextInput(attrs={'placeholder': 'apelldo(s)'})
+    )
+
+    tipo_empleado = forms.ChoiceField()
+
+    email = forms.EmailField(
+        max_length=30,
+        widget=forms.TextInput(attrs={'placeholder': 'email'})
+    )
     # Revisar el tema de hacer CHOICES
     # pais = forms.CharField(max_length=20)
     # departamento = forms.CharField(max_length=20)
@@ -92,3 +105,17 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('identificacion', 'nombre_usuario','password1', 'password2')
 
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        with universitydb.cursor() as cursor:
+            cursor.execute('SELECT nombre, nombre FROM eventos.tipos_empleado')
+            choices = cursor.fetchall()
+        self.fields['tipo_empleado'].choices = choices
+        self.fields['identificacion'].widget.attrs.update({'placeholder': 'identificacion', 'id': 'identificacion'})
+        self.fields['email'].widget.attrs.update({'placeholder': 'email', 'id': 'email'})
+        self.fields['nombres'].widget.attrs.update({'placeholder': 'nombre(s)', 'id': 'nombres'})
+        self.fields['apellidos'].widget.attrs.update({'placeholder': 'apellido(s)', 'id': 'apellidos'})
+        self.fields['tipo_empleado'].widget.attrs.update({'id': 'tipo_relacion'})
+        self.fields['nombre_usuario'].widget.attrs.update({'placeholder': 'nombre de usuario', 'id': 'nombre_usuario'})
+        self.fields['password1'].widget.attrs.update({'placeholder': 'contraseña', 'id': 'password1'})
+        self.fields['password2'].widget.attrs.update({'placeholder': 'confirmar contraseña', 'id': 'password2'})
