@@ -1,105 +1,103 @@
 {% extends "root.html" %}
 
+{% block title %}
+    Crear Evento
+{% endblock title %}
+
 {% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/create_event.css' %}">
+{% endblock stylesheet %}
 
 {% block content %}
 
-    <form id="myForm" action="">
-        
-        <label for="titulo">Titulo</label>
-        <input type="text" id="titulo" name="titulo">    
-        <br>
-
-        <label for="descripcion">Descripcion</label>
-        <textarea id="descripcion" name="descripcion"></textarea>
-        
-        <br>
-
-        <label for="categoria">Categoria</label>
-        <input type="text" name="categoria" id="categoria">
-        <button type="button" onclick="addCategory()">Agregar</button>
-        <ul id="categoriaList"></ul>
-        <br>
-
-        <label for="fecha">Fecha (date and time):</label>
-        <input type="datetime-local" id="fecha" name="fecha">
-        <br>
-
-        <div>
-            <h2>Seccion "Lugar"</h2>
-
-            <label for="nombre_lugar">Nombre</label>
-            <input type="text" id="nombre_lugar" name="nombre_lugar">
-
-            <label for="direccion_lugar">Direccion</label>
-            <input type="text" id="direccion_lugar" name="direccion_lugar">
-
-            <h4>Lugar > Seccion ciudad</h4>
-            <label for="paises">Pais</label>
-            <select name="paises" id="paises">
-                <option value="none">Pais</option>
-                {% for pais in paises %}
-                    <option value="{{ pais.0 }}" data="{{ pais.1 }}">{{ pais.1 }}</option>
+    <div class="container">
+        <form id="myForm">
+            <h2>Crear Evento</h2>
+            <input type="text" id="titulo" name="titulo" placeholder="titulo del evento">        
+            <textarea id="descripcion" name="descripcion" placeholder="descripción del evento..."></textarea>
+            
+            <div class="categoria-container">
+                <div class="add-category-cotainer">
+                    <input type="text" name="categoria" id="categoria" placeholder="escribir una categoria">
+                    <div>
+                        <button type="button" onclick="addCategory()">Agregar</button>
+                    </div>
+                </div>
+                <ul id="categoriaList"></ul>
+            </div>
+    
+            <label for="fecha" class="label-fecha">Fecha y Hora</label>
+            <input type="datetime-local" id="fecha" name="fecha">
+    
+            <div class="lugar-container">
+                <p>Lugar del Evento</p>
+                <div class="lugar-subcontainer">
+                    <input type="text" id="nombre_lugar" name="nombre_lugar" placeholder="nombre del lugar">
+                    <input type="text" id="direccion_lugar" name="direccion_lugar" placeholder="dirección del lugar">    
+                </div>
+                <div class="localidad-container">
+                    <select name="paises" id="paises">
+                        <option value="0">Pais</option>
+                        {% for pais in paises %}
+                            <option value="{{ pais.0 }}" data="{{ pais.1 }}">{{ pais.1 }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="departamentos" id="departamentos">
+                        <option value="0">Departamento</option>
+                    </select>    
+                    <select name="ciudades" id="ciudades">
+                        <option value="0">Ciudad</option>   
+                    </select> 
+                </div>       
+            </div>
+    
+    
+            <label for="conferencistas" class="label-conferencistas">Conferencistas</label>
+            <input type="text" id="conferencistas" name="conferencistas" placeholder="Ingresa un Id o un Nombre" autocomplete="off">
+            <p id="resultados-busqueda">Resultados de Busqueda</p>
+            <ul id="conferencistasSearchList"></ul>
+            <p id="conferencistas-agregados">Conferencistas Agregados</p>
+            <ul id="conferencistasList"></ul>
+            <br>
+            
+            <div class="add-facilitadores-cotainer">
+                <label for="facilitadores" class="label-facilitadores">Facilitadores</label>
+                <div class="add-facilitadores-subcotainer">
+                    <input type="text" id="facilitadores" name="facilitadores" autocomplete="off" placeholder="digite el nombre de los facilitadores">
+                    <button type="button" onclick="addEnabler()">Agregar</button>
+                </div>
+                <ul id="facilitadoresList"></ul>
+            </div>
+            
+            <label for="facultades" class="label-facultades">Facultades Organizadoras</label>
+            <select name="facultades" id="facultades">
+                <option value="none">Facultad</option>
+                {% for facultad in facultades %}
+                    <option value="{{ facultad.1 }}">{{ facultad.1 }}</option>  
                 {% endfor %}
             </select>
-
-            <label for="departamentos">Departamento</label>
-            <select name="departamentos" id="departamentos">
-                <option value="none">Departamento</option>
+            <button type="button" onclick="addOrganizer()">Agregar</button>              
+            <ul id="facultadOrgList"></ul>
+            <br>
+    
+            
+    
+            <label for="programa_org">Programa Organizador</label>
+            <select name="programa_org" id="programa_org">
+                <option value="none">Programa</option>
+                {% for programa in programas %}
+                    <option value="{{ programa.1 }}">{{ programa.1 }}</option>
+                {% endfor %}
             </select>
-
-            <label for="ciudades">Ciudad</label>
-            <select name="ciudades" id="ciudades">
-                <option value="none">Ciudad</option>   
-            </select>
-
-            <h4>Lugar < Seccion ciudad</h4>
-
-            <h2>Fin de Seccion "lugar"</h2>
-        </div>
-
-
-        <label for="conferencistas">Conferencistas</label>
-        <input type="text" id="conferencistas" name="conferencistas" placeholder="Ingresa un Id o un Nombre" autocomplete="off">
-        <p>resultados de busqueda</p>
-        <ul id="conferencistasSearchList"></ul>
-        <p>conferencistas agregados </p>
-        <ul id="conferencistasList"></ul>
-        <br>
-
-        <label for="facilitadores">Facilitadores</label>
-        <input type="text" id="facilitadores" name="facilitadores" autocomplete="off">
-        <button type="button" onclick="addEnabler()">Agregar</button>
-        <ul id="facilitadoresList"></ul>
-        <br>
-
-        <label for="facultades">Facultades Org</label>
-        <select name="facultades" id="facultades">
-            <option value="none">Facultad</option>
-            {% for facultad in facultades %}
-                <option value="{{ facultad.1 }}">{{ facultad.1 }}</option>  
-            {% endfor %}
-        </select>
-        <button type="button" onclick="addOrganizer()">Agregar</button>              
-        <ul id="facultadOrgList"></ul>
-        <br>
-
-        
-
-        <label for="programa_org">Programa Organizador</label>
-        <select name="programa_org" id="programa_org">
-            <option value="none">Programa</option>
-            {% for programa in programas %}
-                <option value="{{ programa.1 }}">{{ programa.1 }}</option>
-            {% endfor %}
-        </select>
-        
-        <br>
-
-        <button type="button" onclick="submitForm()">Enviar Form</button>
-
-
-    </form>
+            
+            <br>
+    
+            <button type="button" onclick="submitForm()">Enviar Form</button>
+    
+    
+        </form>
+    </div>
 
     <script src="{% static 'js/create_event.js' %}"></script>
     <script src="{% static 'js/country_selector.js' %}"></script>

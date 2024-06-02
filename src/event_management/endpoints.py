@@ -32,9 +32,9 @@ def get_conferencistas(request):
     conferencista_search = request.GET.get('confer_search')
 
     if (conferencista_search.isdigit()):
-        cursor = users.find({'identificacion': {'$regex' : conferencista_search}}, {'_id': 0, 'identificacion': 1, 'nombre_completo': 1})
+        cursor = users.find({'identificacion': {'$regex' : conferencista_search}}, {'_id': 0, 'identificacion': 1, 'nombres': 1, 'apellidos': 1})
     else:
-        cursor = users.find({'nombre_completo': {'$regex': conferencista_search}}, {'_id': 0, 'identificacion': 1, 'nombre_completo': 1})
+        cursor = users.find({'nombre_completo': {'$regex': conferencista_search}}, {'_id': 0, 'identificacion': 1, 'nombres': 1, 'apellidos': 1})
 
     for doc in cursor:
         conferencistas.append(doc)
@@ -44,19 +44,16 @@ def get_conferencistas(request):
 @csrf_exempt
 def create_event(request):
     if request.method == 'POST':
-        # Parsear los datos del formulario a JSON
         form_data = json.loads(request.body)
-
-        # Extraer los datos del formulario
         titulo = form_data.get('titulo')
         descripcion = form_data.get('descripcion')
-        
+
         fecha_str = form_data.get('fecha')
         fecha = datetime.strptime(fecha_str, "%Y-%m-%dT%H:%M")
         
         lugar = json.loads(form_data.get('lugar'))
         categorias = json.loads(form_data.get('categorias'))
-
+        
         conferencistas = json.loads(form_data.get('conferencistas'))
         facilitadores = json.loads(form_data.get('facilitadores'))
         facultades_org = json.loads(form_data.get('facultades_org'))

@@ -33,7 +33,6 @@ function addOrganizer() {
 }
 
 function submitForm() {
-    console.log("se ejecuto");
     var formData = new FormData();
 
     let titulo = document.getElementById("titulo").value;
@@ -83,6 +82,8 @@ function submitForm() {
     .catch((error) => {
         console.error('Error:', error);
     });
+
+    print(titulo);
 }
 
 // TODO: cambiar el event a 'input' pero revisar que tenga delay, porque si digitas rapido no se logra borrar la lista, asi que salen resultados repetidos
@@ -97,7 +98,7 @@ document.getElementById('conferencistas').addEventListener('change', function() 
             for (var i = 0; i < data.length; i++) { 
                 var li = document.createElement("li");
                 li.id = data[i]['identificacion'];
-                li.appendChild(document.createTextNode(data[i]['nombre_completo']));
+                li.appendChild(document.createTextNode(data[i]['identificacion'] + ' | ' + data[i]['nombres'] + ' ' + data[i]['apellidos']));
 
                 li.addEventListener('click', function() {
                     var newLi = this.cloneNode(true);
