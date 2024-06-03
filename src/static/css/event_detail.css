@@ -6,7 +6,7 @@
 }
 
 body {
-	background-color: #FFFFFF;
+	background-color: #f6f5f7;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -180,6 +180,12 @@ h3 {
     font-style: italic;
 }
 
+.text-decorator-4 {
+    font-weight: 600;
+    font-style: italic;
+    color: #6b6b6b;
+}
+
 div.organizer-subcontainer-1, div.organizer-subcontainer-2  {
     display: flex;
     gap: 8px;
@@ -208,4 +214,36 @@ textarea {
 
 #caja-comentarios .btn-comment {
     border-radius: 8px;
+}
+
+div.comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: #f6f5f7;
+    border-radius: 4px;
+    padding: 24px;
+}
+
+div.comment-breadcrumb {
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+    text-justify: inter-word;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    gap: 16px;
+}
+
+div.comment-metadata {
+    display: flex;
+    justify-content: start;
+    gap: 8px;
+    border-bottom: 1px solid #6b6b6b;
+    padding-bottom: 8px;
+}
+
+div.comment-metadata p, div.comment-breadcrumb p {
+    margin: 0;
 }

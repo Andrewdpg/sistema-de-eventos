@@ -80,7 +80,7 @@
 
             <form id="caja-comentarios" method="post">
                 {% csrf_token %}
-                <textarea name="comentario" id="comentario"></textarea>
+                <textarea name="comentario" id="comentario" placeholder="Añade un comentario..."></textarea>
                 <div>
                     <button type="submit" name="submit-comment" class="btn btn-primary btn-comment">Comentar</button>
                 </div>
@@ -89,9 +89,9 @@
             <div class="comments-container">
                 {% for comentario in event.comentarios %}
                     <div class="comment-breadcrumb">
-                        <div class="comment-metada">
-                            <p>{{ comentario.nombre_usuario }}</p>
-                            <p>{{ comentario.fecha }}</p>
+                        <div class="comment-metadata">
+                            <p><span class="text-decorator-1">{{ comentario.nombre_usuario }}</span></p>
+                            <p><span class="text-decorator-4">{{ comentario.fecha }}</span></p>
                         </div>
                         <p>{{ comentario.comentario }}</p>
                     </div>
