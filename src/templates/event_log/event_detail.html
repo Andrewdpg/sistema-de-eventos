@@ -6,80 +6,97 @@
 
 {% load static %}
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/event_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/event_detail.css' %}">
 {% endblock stylesheet %}
 
 {% block content %}
-<div class="container">
+<div class="main-container">
+    <div class="container">
         <h1>{{ event.titulo }}</h1>
-        <div class="event-details">
-            <div class="event-locaton">
-                {% if event.lugar.ciudad.departamento == event.lugar.ciudad.nombre %}
-                    <p>{{ event.lugar.nombre }}, {{ event.lugar.ciudad.nombre }}, {{ event.lugar.ciudad.pais }}</p>
-                {% endif %}
-
-                <p>{{ event.lugar.nombre }}, {{ event.lugar.ciudad.nombre }}, {{ event.lugar.ciudad.departamento }}, {{ event.lugar.ciudad.pais }}</p>
-                <p>{{ event.lugar.direccion }}</p>
-            </div>
-            <p>{{ event.fecha }}</p>
-        </div>
+        <p class="p-description">{{ event.descripcion }}</p>
+        
         <div class="event-categories">
             {% for categoria in event.categorias %}
             <p>{{ categoria }}</p>
             {% endfor %}
         </div>
 
-        <p>{{ event.descripcion }}</p>
-    
-        <div class="event-enablers">
-            {% for enabler in event.facilitadores %}
-                <p>{{ enabler }}</p>
-            {% endfor %}
-        </div>
-
-        <div class="event-speakers">
-            {% for conferencista in event.conferencistas %}
-                <div class="speakers-breadcrumb">
-                    
-                </div>
-            {% endfor %}
-        </div>
-        
-        <div class="event-organizers">
-            {% if event.programa_org %}
-                <div class="organizer-subcontainer-1">
-                    <p>{{ event.programa_org }}</p>
-                </div>
-            {% endif %}
-
-            <div class="organizer-subcontainer-2">
-                {% for facultad in event.facultades_org %}
-                    <p>{{ facultad }}</p>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <form id="caja-comentarios" method="post">
-            {% csrf_token %}
-            <textarea name="comentario" id="comentario"></textarea>
-            <button type="submit" name="submit-comment" class="btn btn-primary">Comentar</button>
-        </form>
-        {% for comentario in event.comentarios %}
-            <p>{{ comentario.img_url }}</p>
-            <p>{{ comentario.nombre_usuario }}</p>
-            <p>{{ comentario.comentario }}</p>
-        {% endfor %}
-        
-        <form id="asistencia" method="post">
-            {% csrf_token %}
-            <input type="text" name="id-asistente" placeholder="Ingrese la identificacion del asistente">
-            <button type="submit" name="submit-attendance" class="btn btn-primary">Marcar Asistencia</button>
-        </form>
-
         <form id="inscribirse" method="post">
             {% csrf_token %}
+            <p class="event-time">{{ event.fecha }}</p>
             <button type="submit" name="submit-register" class="btn btn-primary">Incribirse</button>
         </form>
-    </div>
+        <div class="event-details">
+            <div class="event-location">
+                    <p><span class="text-decorator-1">Direccion:</span> {{ event.lugar.direccion }}</p>
+                    <p><span class="text-decorator-1">Lugar:</span>
+                    {% if event.lugar.ciudad.departamento == event.lugar.ciudad.nombre %}
+                        {{ event.lugar.nombre }}, {{ event.lugar.ciudad.nombre }}, {{ event.lugar.ciudad.pais }}</p>
+                    {% else %}
+                        {{ event.lugar.nombre }}, {{ event.lugar.ciudad.nombre }}, {{ event.lugar.ciudad.departamento }}, {{ event.lugar.ciudad.pais }}</p>
+                    {% endif %}
+    
+                    
+                </div>
+            </div>
+               
+            <div class="event-speakers">
+                <h3>Conferencistas</h3>
+                {% for conferencista in event.conferencistas %}
+                    <div class="speakers-breadcrumb">
+                        <p><span class="text-decorator-1">{{ conferencista.nombre_completo }}</span></p>
+                        <p><span class="text-decorator-3">{{ conferencista.tipo_relacion|title }}</span></p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="event-organizers">
+                {% if event.programa_org %}
+                    <div class="organizer-subcontainer-1">
+                        <p><span class="text-decorator-1">Programa Organizador:</span></p>
+                        <p>{{ event.programa_org|title }}</p>
+                    </div>
+                {% endif %}
+    
+                <div class="organizer-subcontainer-2">
+                    {% if event.facultades_org|length > 1  %}
+                        <p><span class="text-decorator-1">Facultades Organizadoras: </span></p>
+                        {% else %}
+                        <p><span class="text-decorator-1">Facultad Organizadora: </span></p>
+                    {% endif %}
+                    {% for facultad in event.facultades_org %}
+                        <p><span class="text-decorator-2">{{ facultad|title }}</span></p>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="event-enablers">
+                <p><span class="text-decorator-1">Facilitadores:</span> 
+                {% for enabler in event.facilitadores %}
+                    <span class="text-decorator-2">{{ enabler }}</span>
+                {% endfor %}
+                </p>
+            </div>
+
+            <form id="caja-comentarios" method="post">
+                {% csrf_token %}
+                <textarea name="comentario" id="comentario"></textarea>
+                <div>
+                    <button type="submit" name="submit-comment" class="btn btn-primary btn-comment">Comentar</button>
+                </div>
+            </form>
+            {% for comentario in event.comentarios %}
+                <p>{{ comentario.nombre_usuario }}</p>
+                <p>{{ comentario.comentario }}</p>
+            {% endfor %}
+            
+            <form id="asistencia" method="post">
+                {% csrf_token %}
+                <input type="text" name="id-asistente" placeholder="Ingrese la identificacion del asistente">
+                <button type="submit" name="submit-attendance" class="btn btn-primary">Marcar Asistencia</button>
+            </form>
+    
+        </div>
+    </div>    
 
 {% endblock content %}

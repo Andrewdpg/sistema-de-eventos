@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+	box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+	background-color: #FFFFFF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin: 0 0 50px;
+}
+
+h1 {
+	font-weight: bold;
+	margin: 0;
+    text-align: center;
+}
+
+p {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+}
+
+.main-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
+}
+
+.container {
+	background-color: #fff;
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+	position: relative;
+	overflow: hidden;
+	width: 768px;
+	max-width: 100%;
+    padding: 38px 48px;
+	margin-top: 54px;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+button, a {
+	border-radius: 20px;
+	border: 1px solid #FF4B2B;
+	background-color: #FF4B2B;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+button:active, a:active {
+	transform: scale(0.95);
+}
+
+button:focus, a:focus {
+	outline: none;
+}
+
+input {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 60%;
+}
+
+.p-description {
+    text-align: justify;
+    text-justify: inter-word;
+    margin: 0;
+}
+
+#inscribirse {
+    display: flex;
+    justify-content: end;
+    gap: 16px;
+} 
+
+#inscribirse button {
+    border-radius: 8px;
+}
+
+#inscribirse p {
+    margin: 0;
+    align-self: center;
+}
+
+.event-location {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 8px;
+}
+
+.event-location p {
+    margin: 0;
+}
+
+.text-decorator-1 {
+    font-weight: bold;
+}
+
+.event-categories {
+    display: flex;
+    gap: 8px;
+}
+
+.event-categories p {
+    background-color: #6b6b6b;
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 14px;
+    margin: 0px;
+}
+
+.event-enablers {
+    display: flex;
+    text-align: left;
+}
+
+.event-enablers p {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin: 0;
+}
+
+.text-decorator-2 {
+    font-weight: 400px;
+    font-size: 14px;
+    padding: 8px;
+    background-color: aqua;
+    border-radius: 8px;
+}
+
+div.event-speakers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: start;
+}
+
+.speakers-breadcrumb {
+    gap: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.speakers-breadcrumb p {
+    margin: 0;
+}
+
+h3 {
+    margin: 12px 0 4px 0;
+}
+
+.text-decorator-3 {
+    font-weight: bold;
+    color:#36a1af;
+    font-style: italic;
+}
+
+div.organizer-subcontainer-1, div.organizer-subcontainer-2  {
+    display: flex;
+    gap: 8px;
+    align-items: start;
+}
+
+#caja-comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+textarea {
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    width: 100%;
+    height: 84px;
+    resize: none;
+}
+
+#caja-comentarios div {
+    align-self: end;
+}
+
+#caja-comentarios .btn-comment {
+    border-radius: 8px;
+}
