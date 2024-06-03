@@ -49,6 +49,7 @@ def actual_events(request):
 
 def event_detail(request, event_id):
     usuario = request.user.identificacion
+    nombre_usuario = request.user.nombre_usuario
 
     if request.method == 'POST':
 
@@ -58,9 +59,10 @@ def event_detail(request, event_id):
             fecha = datetime(fecha.year, fecha.month, fecha.day)
 
             comentario_to_i = comentario_doc(
-                comentario=comentario, 
+                identificacion=usuario,
+                nombre_usuario=nombre_usuario,
                 fecha=fecha, 
-                usuario=usuario
+                comentario=comentario, 
             )
             
             # Insert: Ser inserta un comentario del usuario en un evento en especifico

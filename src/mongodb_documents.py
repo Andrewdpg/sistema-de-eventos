@@ -53,11 +53,12 @@ def evento_doc(titulo, descripcion, categorias, fecha, lugar_datos, conferencist
 
     return event_document
 
-def comentario_doc(comentario, fecha, usuario):
+def comentario_doc(identificacion, fecha, nombre_usuario, comentario):
     comentario = {
-        "comentario": comentario,
+        "identificacion": identificacion,
+        "nombre_usuario": nombre_usuario,
         "fecha": fecha,
-        "usuario": usuario,
+        "comentario": comentario,
     }
 
     return comentario

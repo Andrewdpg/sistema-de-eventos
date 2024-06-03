@@ -85,11 +85,19 @@
                     <button type="submit" name="submit-comment" class="btn btn-primary btn-comment">Comentar</button>
                 </div>
             </form>
-            {% for comentario in event.comentarios %}
-                <p>{{ comentario.nombre_usuario }}</p>
-                <p>{{ comentario.comentario }}</p>
-            {% endfor %}
             
+            <div class="comments-container">
+                {% for comentario in event.comentarios %}
+                    <div class="comment-breadcrumb">
+                        <div class="comment-metada">
+                            <p>{{ comentario.nombre_usuario }}</p>
+                            <p>{{ comentario.fecha }}</p>
+                        </div>
+                        <p>{{ comentario.comentario }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
             <form id="asistencia" method="post">
                 {% csrf_token %}
                 <input type="text" name="id-asistente" placeholder="Ingrese la identificacion del asistente">
