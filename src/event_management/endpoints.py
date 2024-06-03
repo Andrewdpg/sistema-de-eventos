@@ -76,17 +76,6 @@ def create_event(request):
 
         evento.insert_one(evento_to_insert)
 
-        # TODO: Aquí agregar el código para guardar los datos en la base de datos
-        print('Titulo:', titulo)
-        print('Descripcion:', descripcion)
-        print('Fecha:', fecha)
-        print('Lugar:', lugar)
-        print('Categorias:', categorias)
-        print('Conferencistas:', conferencistas)
-        print('Facilitadores:', facilitadores)
-        print('Facultades organizadoras:', facultades_org)
-        print('Programa organizador:', programa_org)
-
         return JsonResponse({'status': 'success'}, status=200)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)

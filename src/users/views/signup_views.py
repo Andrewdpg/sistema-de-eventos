@@ -5,7 +5,7 @@ from django.http import HttpResponseNotFound
 from django.contrib.auth import authenticate, login
 
 from ..forms import CustomUserCreationForm, UserCreationForm_FirstStage, UserCreationForm_SecondStage, EmployeeCreationForm
-from mongodb_documents import employee_doc, document_user
+from mongodb_documents import document_user
 
 from ..models import AuthenticationCodes
 from connections import universitydb
@@ -114,8 +114,40 @@ def signup_employee(request, codigo_urlsafe, codigo_auth):
             password1 = form.cleaned_data['password1']
             password = make_password(password1)
 
-            employee_doc_i = employee_doc(nombre_usuario, password, identificacion)
-            collection.insert_one(employee_doc_i)
+            cur = universitydb.cursor()
+            
+            cur.execute('SELECT identificacion, email, nombres, apellidos, lugar_nacimiento, tipo_empleado FROM eventos.empleados WHERE identificacion = %s', [identificacion])
+            empleado = cur.fetchone()
+            
+            cur.execute('SELECT nombre, cod_dpto FROM eventos.ciudades WHERE codigo = %s', [empleado[4]])
+            ciudad = cur.fetchone()
+
+            cur.execute('SELECT nombre, cod_pais FROM eventos.departamentos WHERE codigo = %s', [ciudad[1]])
+            departamento = cur.fetchone()
+
+            cur.execute('SELECT nombre FROM eventos.paises WHERE codigo = %s', [departamento[1]])
+            pais = cur.fetchone()
+            
+            cur.close()
+
+            ciudad_data = {
+                'nombre': ciudad[0],
+                'departamento': departamento[0],
+                'pais': pais[0]
+            }
+
+            user_to_insert = document_user(
+                identificacion=identificacion,
+                email=empleado[1], 
+                nombres=empleado[2], 
+                apellidos=empleado[3], 
+                nombre_usuario=nombre_usuario, 
+                password=password, 
+                ciudad=ciudad_data,
+                tipo_relacion=empleado[5]
+            )
+
+            collection.insert_one(user_to_insert)
             auth_code.delete()
 
             user = authenticate(request, identificacion=identificacion, password=password1)

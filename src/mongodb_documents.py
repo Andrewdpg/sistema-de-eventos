@@ -1,14 +1,3 @@
-def employee_doc(nombre_usuario, password, identificacion):
-    employee = {
-        "last_login": None,
-        "identificacion": identificacion,
-        "nombre_usuario": nombre_usuario,
-        "password": password,
-        "is_superuser": False,
-    }
-
-    return employee
-
 def document_user(identificacion, nombre_usuario, password, nombres, apellidos, tipo_relacion, email, ciudad):
     user = {
         "last_login": None,
