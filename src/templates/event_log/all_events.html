@@ -25,8 +25,15 @@
                 {% for event in events %}
                 <div class="event-breadcrumb">
                     <div class="content-container">
-                        <div class="content-title">
-                            <p>{{ event.titulo }}</p>
+                        <div class="row">
+                            <div class="content-title">
+                                <p>{{ event.titulo }}</p>
+                            </div>
+                            {% if event.porcentaje >= 50 %}
+                                <div class="content-recommendation">
+                                    <p title="Basado en tus eventos asistidos">{{ event.porcentaje }}% recomendado </p>
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="content-description">
                             <p>{{ event.descripcion }}</p>

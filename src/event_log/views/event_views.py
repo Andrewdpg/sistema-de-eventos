@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from bson.objectid import ObjectId
 from connections import universitydb, evento, users
 from mongodb_documents import comentario_doc
+from event_management.endpoints import recommend_events
 import re
 
 from datetime import datetime, timedelta
@@ -41,9 +42,10 @@ def actual_events(request):
             next_day = search_date + timedelta(days=1)
             query['$and'][1]['$or'].append({"fecha": {"$gte": search_date, "$lt": next_day}})
 
-    events = evento.find(query)
+    events = list(evento.find(query))
 
-    return render(request, 'event_log/all_events.html', {'events': events})
+    events = recommend_events(request, events, today)
+    return render(request, "event_log/all_events.html", {"events": events})
 
 def event_detail(request, event_id):
     if request.method == 'POST':

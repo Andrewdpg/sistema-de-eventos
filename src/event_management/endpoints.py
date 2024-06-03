@@ -1,8 +1,8 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from connections import universitydb, users, evento
-from mongodb_documents import evento_doc, document_user
-from datetime import datetime
+from mongodb_documents import evento_doc, document_user, recomendacion_doc
+from datetime import datetime, timedelta
 import json
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login
@@ -117,3 +117,43 @@ def create_normal_user(request):
         return JsonResponse({'status': 'success'}, status=200)
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+
+def recommend_events(request, events, today):
+    # Obtén las recomendaciones para el usuario actual
+    user_id = request.user.identificacion
+    user = users.find_one({"identificacion": user_id})
+
+    # Agrega el porcentaje de recomendación a cada evento
+    if 'recomendaciones' not in user or user['recomendaciones']["fecha"] < today - timedelta(days=7):
+        recommendations = calculate_recommendations(user_id, events, today)
+    else:
+        recommendations = user['recomendaciones']
+        
+    for event in events:
+        if str(event["_id"]) in recommendations["porcentajes"]:
+            event["porcentaje"] = recommendations["porcentajes"][str(event["_id"])]
+        else:
+            event["porcentaje"] = 0
+    return events
+
+def calculate_recommendations(identification, events, today):
+    # Obtén todos los eventos a los que el usuario ha asistido
+    attended_events = evento.find({"asistentes": {"$elemMatch": {"identificacion": identification, "estado_asistencia": "PRESENCIAL"}}})
+
+    # Crea un conjunto de todas las categorías de los eventos a los que el usuario ha asistido
+    user_categories = set()
+    for event in attended_events:
+        user_categories.update(event['categorias'])
+
+    # Para cada evento en la base de datos, calcula el porcentaje de categorías que están en el conjunto de categorías del usuario
+    all_events = evento.find({"fecha": {"$gte": today}})
+    event_scores =  recomendacion_doc(porcentajes={}, fecha=today)
+    for event in all_events:
+        common_categories = user_categories.intersection(set(event['categorias']))
+        score = int((len(common_categories) / len(event['categorias']))*100)
+        event_scores["porcentajes"][str(event["_id"])] = score
+
+    ## Crear el documento o reemplazarlo si ya existe uno
+    users.update_one({'identificacion': identification}, {'$set': {'recomendaciones': event_scores}}, upsert=True)
+
+    return event_scores

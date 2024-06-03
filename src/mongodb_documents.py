@@ -61,3 +61,11 @@ def comentario_doc(comentario, fecha, usuario):
     }
 
     return comentario
+
+def recomendacion_doc(porcentajes, fecha):
+    recomendacion = {
+        "porcentajes": porcentajes,
+        "fecha": fecha,
+    }
+
+    return recomendacion
