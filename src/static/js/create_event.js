@@ -32,7 +32,7 @@ function addOrganizer() {
     }
 }
 
-function submitForm() {
+function submitForm(event) {
     var formData = new FormData();
 
     let titulo = document.getElementById("titulo").value;
@@ -78,12 +78,14 @@ function submitForm() {
         }
         return response.json();
     })
-    .then(data => console.log(data))
+    .then(data => {
+        console.log(data);
+        // Redirige a otra página
+        window.location.href = "/events/e";
+    })
     .catch((error) => {
         console.error('Error:', error);
     });
-
-    print(titulo);
 }
 
 // TODO: cambiar el event a 'input' pero revisar que tenga delay, porque si digitas rapido no se logra borrar la lista, asi que salen resultados repetidos
