@@ -3,22 +3,48 @@
 {% load templatetags %}
 
 {% block content %}
-    
-    {% for event in events %}
-        <img src="{{ event.imagen.url }}" alt="{{ event.titulo }}" width="100" height="100">
-        <p>{{ event.titulo }}</p>
+    <div class="main-container">
+        <div class="container">
+            <div class="search-container">
+                <form method="GET" id="search-form">
+                    <input type="text" name="search" id="search" placeholder="Buscar Evento">
+                    <select name="search-options" id="search-options">
+                        <option value="titulo">Titulo</option>
+                        <option value="categoria">Categoria</option>
+                        <option value="fecha">Fecha</option>
+                        <option value="lugar_evento">Lugar</option> 
+                    </select>
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
 
-        {% for categoria in event.categorias %}
-            <p>{{ categoria.nombre }}</p>
-        {% endfor %}
-
-        <p>{{ event.descripcion }}</p>
-        <p>{{ event.fecha }}</p>
-        <p>{{ event.lugar_evento }}</p>
-
-        <a href="{% url 'view_event' event_id=event|get_item:'_id' %}"><button>Ver Detalles</button></a>
-    {% endfor %}
-
-    
-
+            {% for event in events %}
+            <div class="event-breadcrum">
+                <div class="img-container">
+                    <img src="{{ event.imagen.url }}" alt="{{ event.titulo }}">
+                </div>
+                <div class="content-container">
+                    <div class="content-title">
+                        <p>{{ event.titulo }}</p>
+                    </div>
+                    <div class="content-category">
+                        {% for categoria in event.categorias %}
+                            <p>{{ categoria.nombre }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="content-description">
+                        <p>{{ event.descripcion }}</p>
+                    </div>
+                    <div class="content-metadata">
+                        <p>{{ event.fecha }}</p>
+                        <p>{{ event.lugar_evento }}</p>           
+                    </div>
+                    <div class="content-action">
+                        <a href="{% url 'view_event' event_id=event|get_item:'_id' %}"><button>Ver Detalles</button></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %} 
+        </div>
+    </div>  
 {% endblock content %}
