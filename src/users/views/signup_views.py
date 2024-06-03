@@ -168,6 +168,3 @@ def signup_user(request):
     form = CustomUserCreationForm(request.POST or None)
 
     return render(request, 'users/signup_user.html', {'form': form, 'paises': paises})
-
-def exito(request):
-    return render(request, 'users/exito.html')

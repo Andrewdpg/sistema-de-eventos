@@ -1,5 +1,4 @@
 function submitForm() {
-    console.log("se ejecuto");
     var formData = new FormData();
 
     let identificacion = document.getElementById("identificacion").value;
@@ -13,9 +12,9 @@ function submitForm() {
     let tipo_relacion = document.getElementById("tipo_relacion").value;
 
     let ciudad = {
-        "nombre": document.getElementById("ciudades").value,
-        "departamento": document.getElementById("departamentos").value,
-        "pais": document.getElementById("paises").value
+        "nombre": document.getElementById("ciudades").options[document.getElementById("ciudades").selectedIndex].text,
+        "departamento": document.getElementById("departamentos").options[document.getElementById("departamentos").selectedIndex].text,
+        "pais": document.getElementById("paises").options[document.getElementById("paises").selectedIndex].text
     };
 
     formData.append('identificacion', identificacion);

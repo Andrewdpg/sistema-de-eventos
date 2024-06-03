@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'university',
     'event_log',
+    'pages'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'event_management.middleware.LoginRequiredMiddleware'
 ]
 
 ROOT_URLCONF = 'event_management.urls'
