@@ -7,6 +7,7 @@
 {% load static %}
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messages.css' %}">
 {% endblock stylesheet %}
 
 {% block content %}
@@ -17,6 +18,9 @@
                 {% csrf_token %}
                 {{ form.identificacion }}
                 {{ form.password }}
+                {% if msg %}
+                    <small class="error">{{ msg }}</small>
+                {% endif %}
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
         </div>

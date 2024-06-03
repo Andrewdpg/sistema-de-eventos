@@ -22,7 +22,7 @@ def login_view(request):
 
                 if len(user_university_db)==1:  
                     user_university_db = user_university_db[0]
-                    
+
                     user_mongo_db = users.find_one({'identificacion': identificacion})
 
                     if (user_mongo_db["nombres"] != user_university_db[0]):
@@ -36,10 +36,10 @@ def login_view(request):
 
                     if (user_mongo_db["email"] != user_university_db[3]):
                         users.update_one({'identificacion': identificacion}, {'$set': {'email': user_university_db[3]}})
-    
+
             return redirect('home')
         else:
-            msg = 'identifacación o contraseña no validas'
+            msg = "Identificación o contraseña no validas"
             form = CustomLoginForm(request.POST)
             return render(request, 'users/login.html', {'form': form, 'msg': msg})
     else:
