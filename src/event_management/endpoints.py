@@ -32,9 +32,9 @@ def get_conferencistas(request):
     conferencista_search = request.GET.get('confer_search')
 
     if (conferencista_search.isdigit()):
-        cursor = users.find({'identificacion': {'$regex' : conferencista_search}}, {'_id': 0, 'identificacion': 1, 'nombres': 1, 'apellidos': 1})
+        cursor = users.find({'identificacion': {'$regex' : conferencista_search}}, {'_id': 0, 'identificacion': 1, 'nombres': 1, 'apellidos': 1, 'tipo_relacion': 1})
     else:
-        cursor = users.find({'nombre_completo': {'$regex': conferencista_search}}, {'_id': 0, 'identificacion': 1, 'nombres': 1, 'apellidos': 1})
+        cursor = users.find({'nombre_completo': {'$regex': conferencista_search}}, {'_id': 0, 'identificacion': 1, 'nombres': 1, 'apellidos': 1, 'tipo_relacion': 1})
 
     for doc in cursor:
         conferencistas.append(doc)
@@ -73,6 +73,10 @@ def create_event(request):
             facultades_org=facultades_org, 
             programa_org=programa_org
         )
+
+        print("==================================================================================================================================================================================================================================================================================================================================================================================")
+        print(conferencistas)
+        print(form_data.get('conferencistas'))
 
         evento.insert_one(evento_to_insert)
 

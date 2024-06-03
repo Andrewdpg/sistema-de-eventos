@@ -75,7 +75,7 @@ function submitForm(event) {
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
-        }
+        }   
         return response.json();
     })
     .then(data => {
@@ -100,16 +100,24 @@ document.getElementById('conferencistas').addEventListener('change', function() 
             for (var i = 0; i < data.length; i++) { 
                 var li = document.createElement("li");
                 li.id = data[i]['identificacion'];
+                li.setAttribute('data_identificacion', data[i]['identificacion']);
+                li.setAttribute('data_nombre_completo', data[i]['nombres'] + ' ' + data[i]['apellidos']);
+                li.setAttribute('data_tipo_relacion', data[i]['tipo_relacion']);
                 li.appendChild(document.createTextNode(data[i]['identificacion'] + ' | ' + data[i]['nombres'] + ' ' + data[i]['apellidos']));
 
                 li.addEventListener('click', function() {
                     var newLi = this.cloneNode(true);
-                    listConferencistas.push(this.id);
+                    tempDic = {
+                        identificacion: this.getAttribute('data_identificacion'),
+                        nombre_completo: this.getAttribute('data_nombre_completo'),
+                        tipo_relacion: this.getAttribute('data_tipo_relacion')
+                    }
+                    listConferencistas.push(tempDic);
                     // TODO: no puede agregar los mismos conferencistas
                     document.getElementById("conferencistasList").appendChild(newLi);
                 });
 
                 document.getElementById("conferencistasSearchList").appendChild(li);     
-            }
+            }   
         });
 });
