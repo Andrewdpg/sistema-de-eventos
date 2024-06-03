@@ -25,10 +25,16 @@
         <p>{{ orgnizador.nombre }}</p>
     {% endfor %}
 
-    <form id="caja-cometnarios" method="post">
+    <form id="caja-comentarios" method="post">
         {% csrf_token %}
         <textarea name="comentario" id="comentario"></textarea>
-        <input type="submit" value="Comentar">
+        <button type="submit" name="submit-comment" class="btn btn-primary">Comentar</button>
+    </form>
+
+    <form id="asistencia" method="post">
+        {% csrf_token %}
+        <input type="text" name="id-asistente" placeholder="Ingrese la identificacion del asistente">
+        <button type="submit" name="submit-attendance" class="btn btn-primary">Marcar Asistencia</button>
     </form>
 
 {% endblock content %}
