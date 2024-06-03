@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 0 50px;
+}
+
+h1 {
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    text-align: center;
+}
+
+.sub-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+            0 10px 10px rgba(0,0,0,0.22);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    padding: 38px 48px;
+    margin-top: 54px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sub-container h1 {
+    font-weight: bold;
+    margin: 0;
+}
+
+.sub-container p {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+}
+
+.profile-container {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.profile-info h2 {
+    font-weight: bold;
+    margin: 12px 0 4px 0;
+}
+
+.profile-info p {
+    margin: 0;
+}
+
+.attended-events {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.best-events {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.best-events h2 {
+    font-weight: bold;
+    margin: 12px 0 4px 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.best-events ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 10px;
+}
+
+ul a {
+    background-color: #FF4B2B;
+    color: white;
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+    background-color: #e23719;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.content-recommendation p {
+    margin: 0;
+    align-self: center;
+    font-size: 14px;
+    font-weight: 500;
+}
