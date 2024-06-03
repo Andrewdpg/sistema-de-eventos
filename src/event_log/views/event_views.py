@@ -48,13 +48,14 @@ def actual_events(request):
     return render(request, "event_log/all_events.html", {"events": events})
 
 def event_detail(request, event_id):
+    usuario = request.user.identificacion
+
     if request.method == 'POST':
 
         if 'submit-comment' in request.POST:
             comentario = request.POST.get('comentario')
             fecha = datetime.today()
             fecha = datetime(fecha.year, fecha.month, fecha.day)
-            usuario = request.user.identificacion
 
             comentario_to_i = comentario_doc(
                 comentario=comentario, 
@@ -67,15 +68,29 @@ def event_detail(request, event_id):
             return redirect('view_event', event_id=event_id)
         
         elif 'submit-attendance' in request.POST:
-            id_asistente = request.POST.get("id-asistente")
-            asistente = users.find_one({'identificacion': id_asistente})
+            asistente = evento.find_one({'_id': ObjectId(event_id), 'asistentes.identificacion': {'$in': [usuario]}})
 
             if asistente is not None:
-                evento.update_one({'_id': ObjectId(event_id)}, {'$push': {'asistentes': id_asistente}})
+                evento.update_one(
+                    {'_id': ObjectId(event_id), 'asistentes.identificacion': usuario},
+                    {'$set': {'asistentes.$.estado_asistencia': 'PRESENCIAL'}})
 
             return redirect('view_event', event_id=event_id)
         
-    else:
+        elif 'submit-register' in request.POST:
+            asistente = evento.find_one({'_id': ObjectId(event_id), 'asistentes.identificacion': {'$in': [usuario]}})
+
+            if asistente is None:
+                info_user = {
+                    'identificacion': usuario,
+                    'estado_asistencia': 'INSCRITO' 
+                }
+
+                evento.update_one({'_id': ObjectId(event_id)}, {'$push': {'asistentes': info_user}})
+            
+            return redirect('view_event', event_id=event_id)
+        
+    else: 
         # Busqueda: Se hace una busqueda de un evento en especifico por su _id
         event = evento.find_one({'_id' : ObjectId(event_id)})
         return render(request, 'event_log/event_detail.html', {'event': event})

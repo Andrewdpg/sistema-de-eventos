@@ -1,40 +1,85 @@
 {% extends "root.html" %}
 
+{% block title %}
+    Evento | {{ event.titulo }}
+{% endblock title %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/event_detail.css' %}">
+{% endblock stylesheet %}
+
 {% block content %}
-    <p>{{ event.img_url }}</p>
-    <p>{{ event.titulo }}</p>
-    <p>{{ event.fecha }}</p>
-    <p>{{ event.lugar }}</p>
+<div class="container">
+        <h1>{{ event.titulo }}</h1>
+        <div class="event-details">
+            <div class="event-locaton">
+                {% if event.lugar.ciudad.departamento == event.lugar.ciudad.nombre %}
+                    <p>{{ event.lugar.nombre }}, {{ event.lugar.ciudad.nombre }}, {{ event.lugar.ciudad.pais }}</p>
+                {% endif %}
+
+                <p>{{ event.lugar.nombre }}, {{ event.lugar.ciudad.nombre }}, {{ event.lugar.ciudad.departamento }}, {{ event.lugar.ciudad.pais }}</p>
+                <p>{{ event.lugar.direccion }}</p>
+            </div>
+            <p>{{ event.fecha }}</p>
+        </div>
+        <div class="event-categories">
+            {% for categoria in event.categorias %}
+            <p>{{ categoria }}</p>
+            {% endfor %}
+        </div>
+
+        <p>{{ event.descripcion }}</p>
     
-    {% for categoria in event.categorias %}
-        <p>{{ categoria.nombre }}</p>
-    {% endfor %}
-    
-    <p>{{ event.descripcion }}</p>
+        <div class="event-enablers">
+            {% for enabler in event.facilitadores %}
+                <p>{{ enabler }}</p>
+            {% endfor %}
+        </div>
 
-    {% for comentario in event.comentarios %}
-        <p>{{ comentario.img_url }}</p>
-        <p>{{ comentario.nombre_usuario }}</p>
-        <p>{{ comentario.comentario }}</p>
-    {% endfor %}
+        <div class="event-speakers">
+            {% for conferencista in event.conferencistas %}
+                <div class="speakers-breadcrumb">
+                    
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="event-organizers">
+            {% if event.programa_org %}
+                <div class="organizer-subcontainer-1">
+                    <p>{{ event.programa_org }}</p>
+                </div>
+            {% endif %}
 
-    <p>{{ event.conferencistas }}</p>
-    <p>{{ event.facilitadores }}</p>
-    
-    {% for orgnizador in event.orgnizadores %}
-        <p>{{ orgnizador.nombre }}</p>
-    {% endfor %}
+            <div class="organizer-subcontainer-2">
+                {% for facultad in event.facultades_org %}
+                    <p>{{ facultad }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <form id="caja-comentarios" method="post">
+            {% csrf_token %}
+            <textarea name="comentario" id="comentario"></textarea>
+            <button type="submit" name="submit-comment" class="btn btn-primary">Comentar</button>
+        </form>
+        {% for comentario in event.comentarios %}
+            <p>{{ comentario.img_url }}</p>
+            <p>{{ comentario.nombre_usuario }}</p>
+            <p>{{ comentario.comentario }}</p>
+        {% endfor %}
+        
+        <form id="asistencia" method="post">
+            {% csrf_token %}
+            <input type="text" name="id-asistente" placeholder="Ingrese la identificacion del asistente">
+            <button type="submit" name="submit-attendance" class="btn btn-primary">Marcar Asistencia</button>
+        </form>
 
-    <form id="caja-comentarios" method="post">
-        {% csrf_token %}
-        <textarea name="comentario" id="comentario"></textarea>
-        <button type="submit" name="submit-comment" class="btn btn-primary">Comentar</button>
-    </form>
-
-    <form id="asistencia" method="post">
-        {% csrf_token %}
-        <input type="text" name="id-asistente" placeholder="Ingrese la identificacion del asistente">
-        <button type="submit" name="submit-attendance" class="btn btn-primary">Marcar Asistencia</button>
-    </form>
+        <form id="inscribirse" method="post">
+            {% csrf_token %}
+            <button type="submit" name="submit-register" class="btn btn-primary">Incribirse</button>
+        </form>
+    </div>
 
 {% endblock content %}
