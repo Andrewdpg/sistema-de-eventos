@@ -1,0 +1,51 @@
+{% extends "root.html" %}
+
+{% block title %}
+    Perfil de usuario
+{% endblock title %}
+
+{% load static %}
+{% load templatetags %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock stylesheet %}
+{% block content %}
+    <div class="container">
+        <div class="sub-container">
+            <h1>Perfil de usuario</h1>
+            <p>{{ user.nombre_usuario }}</p>
+            <div class="profile-container">
+                <div class="profile-info">
+                    <h2>Información personal</h2>
+                    <p><strong>Nombre:</strong> {{ userInfo.nombres }} {{ userInfo.apellidos }}</p>
+                    <p><strong>Identificación:</strong> {{ userInfo.identificacion }}</p>
+                    <p><strong>Email:</strong> {{ userInfo.email }}</p>
+                    <p><strong>Ciudad:</strong> {{ userInfo.ciudad.nombre }}, {{ userInfo.ciudad.departamento }}, {{ userInfo.ciudad.pais }}</p>
+                    <p><strong>Tipo de relación:</strong> {{ userInfo.tipo_relacion }}</p>
+                </div>
+                
+                <div class="attended-events">
+                    <h2>Últimos eventos a los que asistió</h2>
+                    <ul>
+                        {% for event in attended_events %}
+                            <a href="{% url 'view_event' event_id=event|get_item:'_id' %}">{{ event.titulo }}</a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="best-events">
+                <h2>Eventos más recomendados</h2>
+                <ul>
+                    {% for event in best_events %}
+                    <div class="row">
+                        <a href="{% url 'view_event' event_id=event|get_item:'_id' %}">{{ event.titulo }}</a>
+                        <div class="content-recommendation">
+                            <p title="Basado en tus eventos asistidos">{{ event.porcentaje }}% recomendado </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

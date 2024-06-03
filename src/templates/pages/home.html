@@ -16,9 +16,8 @@
             <p>Bienvenido, {{ user.nombre_usuario }}</p>
             
             <div class="options-container">
-                <a href="" class="btn">Recomendaciones</a>
                 <a href="{% url 'show_events' %}" class="btn">Eventos</a>
-                <a href="">Perfil</a>
+                <a href="{% url 'profile' %}">Perfil</a>
                 <a href="{% url 'signout' %}" class="btn">Cerrar Sesión</a>
             </div>    
         </div>
