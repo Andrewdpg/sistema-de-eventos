@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from bson.objectid import ObjectId
 from connections import universitydb, evento, users
 from mongodb_documents import comentario_doc
+import re
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def all_events(request):
     # Busqueda: Se hace una busqueda de todos los eventos
@@ -17,7 +18,30 @@ def actual_events(request):
     today = datetime.today()
     today = datetime(today.year, today.month, today.day)
 
-    events = evento.find({"fecha": {'$gte': today}})
+    query = {"fecha": {"$gte": today}}
+
+    search_param = request.GET.get("search", "")
+
+    if search_param:
+        query = {
+            "$and": [
+                {"fecha": {"$gte": today}},
+                {
+                    "$or": [
+                        {"titulo": re.compile(search_param, re.IGNORECASE)},
+                        {"categorias": re.compile(search_param, re.IGNORECASE)},
+                        {"lugar.nombre": re.compile(search_param, re.IGNORECASE)},
+                    ]
+                },
+            ]
+        }
+        date_match = re.search(r"\d{4}-\d{2}-\d{2}",search_param)
+        if date_match:
+            search_date = datetime.strptime(date_match.group(), "%Y-%m-%d")
+            next_day = search_date + timedelta(days=1)
+            query['$and'][1]['$or'].append({"fecha": {"$gte": search_date, "$lt": next_day}})
+
+    events = evento.find(query)
 
     return render(request, 'event_log/all_events.html', {'events': events})
 

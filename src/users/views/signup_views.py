@@ -38,7 +38,7 @@ def signup_first_stage(request):
         user = collection.find_one({'$or': [{'identificacion': identificacion}, {'email': email}]})
 
         if user:
-            err = "La identificacion o email ya se encuentran registrados"
+            err = "La identificación o email ya se encuentran registrados"
             return render(request, 'users/signup.html', {'form': form, 'err': err})
             
         # Busqueda: Se busca en la base de datos de la universidad, para ver si el id y el email que se ve van a emplear ya estan en la db.
@@ -62,7 +62,7 @@ def signup_first_stage(request):
                 return redirect('signup_auth', codigo_urlsafe=codigo_urlsafe)
             
             else:
-                err = "La identificacion o email no coinciden"
+                err = "La identificación o email no coinciden"
                 return render(request, 'users/signup.html', {'form': form, 'err': err})   
                      
         else:
