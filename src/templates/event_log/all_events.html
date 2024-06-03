@@ -1,50 +1,58 @@
 {% extends "root.html" %}
 
 {% load templatetags %}
+{% block title %}
+    Eventos
+{% endblock title %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/all_events.css' %}">
+{% endblock stylesheet %}
+
 
 {% block content %}
     <div class="main-container">
         <div class="container">
-            <div class="search-container">
-                <form method="GET" id="search-form">
-                    <input type="text" name="search" id="search" placeholder="Buscar Evento">
-                    <select name="search-options" id="search-options">
-                        <option value="titulo">Titulo</option>
-                        <option value="categoria">Categoria</option>
-                        <option value="fecha">Fecha</option>
-                        <option value="lugar_evento">Lugar</option> 
-                    </select>
-                    <button type="submit">Buscar</button>
-                </form>
-            </div>
+            <h1>Eventos</h1>
 
-            {% for event in events %}
-            <div class="event-breadcrum">
-                <div class="img-container">
-                    <img src="{{ event.imagen.url }}" alt="{{ event.titulo }}">
+            <form method="GET" id="search-form" class="search-form">
+                <input type="text" name="search" id="search" placeholder="Buscar Evento">
+                <select name="search-options" id="search-options">
+                    <option value="titulo">Titulo</option>
+                    <option value="categoria">Categoria</option>
+                    <option value="fecha">Fecha</option>
+                    <option value="lugar_evento">Lugar</option> 
+                </select>
+                <button type="submit" id="submit">Buscar</button>
+            </form>
+            
+            <div class="events-container">
+                {% for event in events %}
+                <div class="event-breadcrumb">
+                    <div class="content-container">
+                        <div class="content-title">
+                            <p>{{ event.titulo }}</p>
+                        </div>
+                        <div class="content-description">
+                            <p>{{ event.descripcion }}</p>
+                        </div>
+                        <div class="content-category">
+                            {% for categoria in event.categorias %}
+                                <p>{{ categoria }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="content-metadata">
+                            <p>{{ event.lugar.nombre }} ( {{ event.lugar.ciudad.pais}}, {{ event.lugar.ciudad.departamento }}, {{ event.lugar.ciudad.nombre }} )</p>
+                            <p>{{ event.fecha }}</p>           
+                        </div>
+                        <div class="content-action">
+                            <a href="{% url 'view_event' event_id=event|get_item:'_id' %}">Ver Detalles</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="content-container">
-                    <div class="content-title">
-                        <p>{{ event.titulo }}</p>
-                    </div>
-                    <div class="content-category">
-                        {% for categoria in event.categorias %}
-                            <p>{{ categoria.nombre }}</p>
-                        {% endfor %}
-                    </div>
-                    <div class="content-description">
-                        <p>{{ event.descripcion }}</p>
-                    </div>
-                    <div class="content-metadata">
-                        <p>{{ event.fecha }}</p>
-                        <p>{{ event.lugar_evento }}</p>           
-                    </div>
-                    <div class="content-action">
-                        <a href="{% url 'view_event' event_id=event|get_item:'_id' %}"><button>Ver Detalles</button></a>
-                    </div>
-                </div>
+                {% endfor %} 
             </div>
-            {% endfor %} 
         </div>
     </div>  
 {% endblock content %}
