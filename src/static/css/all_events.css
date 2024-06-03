@@ -162,7 +162,7 @@ input {
 }
 
 .search-form input {
-	width: 60%;
+	width: 100%;
 }
 
 .search-form select {
