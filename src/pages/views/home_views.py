@@ -2,12 +2,12 @@ from datetime import datetime
 from bson import ObjectId
 from django.shortcuts import render
 from connections import users, evento
-from event_management.endpoints import recommend_events
+from event_management.endpoints import recommend_events, validate_permissions
 
 
 def home_view(request):
     userInfo = request.user.__dict__
-    return render(request, 'pages/home.html', {'userInfo': userInfo})
+    return render(request, 'pages/home.html', {'userInfo': userInfo, 'can_create_event': validate_permissions(request.user.identificacion, 'crear_evento')})
 
 def profile_view(request):
     userInfo = users.find_one({'identificacion': request.user.identificacion})
