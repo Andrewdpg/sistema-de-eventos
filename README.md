@@ -1,6 +1,7 @@
 # Implementación del Sistema de Gestión de Eventos
 
 ### Integrantes
+
 * Silem Nabib Villa Contreras
 * Andrés David Parra García
 * Maria Alejandra Mantilla Coral
@@ -14,21 +15,25 @@ Una universidad del suroccidente colombiano requiere una aplicación para gestio
 Para ejecutar el proyecto, siga los siguientes pasos una vez descomprimido el archivo del proyecto y ubicado en la carpeta correspondiente:
 
 1. (Opcional - Recomendable) Abrir una terminal y crear un entorno virtual:
+
    ```sh
    py -m venv venv  # Crea un entorno independiente
    venv\Scripts\activate  # Activa el entorno
    ```
 2. Instalar las dependencias necesarias:
+
    ```sh
    pip install -r requirements.txt
    ```
 3. Ejecutar el servidor de desarrollo:
+
    ```sh
    py manage.py runserver
    ```
 4. Ingresar a la dirección [http://127.0.0.1:8000/](http://127.0.0.1:8000/) (puede utilizar credenciales existentes o crear un nuevo usuario).
-   
+
    Credenciales existentes:
+
    * Usuario: 123456789
    * Contraseña: Icesi1234
 
@@ -49,14 +54,14 @@ Para la base de datos NoSQL, se optó por MongoDB debido a su flexibilidad para 
 
 Para determinar si MongoDB es la mejor opción para esta aplicación, se compararon varias bases de datos NoSQL populares: MongoDB, CouchDB, Cassandra y Redis. La siguiente matriz de decisión muestra los criterios clave y su evaluación:
 
-| Criterio              | MongoDB                             | CouchDB                  | Cassandra                | Redis                    |
-|-----------------------|-------------------------------------|--------------------------|--------------------------|--------------------------|
-| **Flexibilidad del Esquema**      | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta (documentos JSON)     | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta (documentos JSON)     | ![#f00](https://placehold.co/15x15/f00/f00.png) Baja (columnas)     | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Moderada (clave-valor)     |
-| **Escalabilidad Horizontal**      | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                        | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                        | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy Alta                | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                      |
-| **Consultas Ad-hoc**              | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy buenas                 | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy buenas                 | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitadas                | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitadas                |
-| **Rendimiento (Lectura/Escritura)**| ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                        | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                        | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy Alta                | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy Alta                |
-| **Facilidad de Uso**              | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta (amplia documentación) | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                        | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Media (curva de aprendizaje) | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Media (uso específico)   |
-| **Integración con Django**        | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy buena (Djongo)         | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitada                   | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitada                | ![#f00](https://placehold.co/15x15/f00/f00.png) Baja                      |
+| Criterio                                        | MongoDB                                                                                | CouchDB                                                                                | Cassandra                                                                       | Redis                                                                               |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Flexibilidad del Esquema**           | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta (documentos JSON)                 | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta (documentos JSON)                 | ![#f00](https://placehold.co/15x15/f00/f00.png) Baja (columnas)                 | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Moderada (clave-valor)              |
+| **Escalabilidad Horizontal**           | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                         | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                         | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy Alta                  | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                       |
+| **Consultas Ad-hoc**               | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy buenas                       | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy buenas                       | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitadas                 | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitadas                     |
+| **Rendimiento (Lectura/Escritura)**       | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                         | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                         | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy Alta                  | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy Alta                      |
+| **Facilidad de Uso**               | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta (amplia documentación)             | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                         | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Media (curva de aprendizaje)      | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Media (uso específico)              |
+| **Integración con Django**           | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy buena (Djongo)                   | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitada                        | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitada                  | ![#f00](https://placehold.co/15x15/f00/f00.png) Baja                       |
 
 De acuerdo con esta evaluación, MongoDB se presenta como la mejor opción para la base de datos NoSQL debido a su flexibilidad, escalabilidad, rendimiento y facilidad de integración con Django.
 
@@ -64,16 +69,16 @@ De acuerdo con esta evaluación, MongoDB se presenta como la mejor opción para 
 
 La elección de Django como framework para el desarrollo web se sustentó en varios factores clave comparados con otras opciones como Flask, React, y Node.js:
 
-| Criterio              | Django                              | React                    | Flask                   | Node.js (Express)       |
-|-----------------------|-------------------------------------|--------------------------|-------------------------|--------------------------|
-| **Facilidad de Desarrollo** | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta (estructura MVC, herramientas integradas) | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Media (requiere configuración adicional) | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Media (mayor flexibilidad, pero más configuración) | ![#f00](https://placehold.co/15x15/f00/f00.png) Baja (requiere más conocimiento de JavaScript) |
-| **Curva de Aprendizaje**    | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Moderada                           | ![#f00](https://placehold.co/15x15/f00/f00.png) Alta (solo front-end)     | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Moderada                | ![#f00](https://placehold.co/15x15/f00/f00.png) Alta                      |
-| **Soporte de la Comunidad** | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Extenso                            | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy grande, activa        | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Moderada                | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Grande, activa            |
-| **Escalabilidad**           | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                               | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                      | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitada sin plugins    | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta, con Microservices   |
-| **Rendimiento**             | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Bueno                              | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Excelente (renderizado en el cliente) | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Bueno                   | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Excelente                 |
-| **Adecuación a MongoDB**    | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Buena (integración con Djongo)     | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Buena (librerías disponibles) | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Buena (librerías disponibles) | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Buena (librerías disponibles) |
-| **Integración con BD**      | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Excelente soporte para SQL y NoSQL | ![#f00](https://placehold.co/15x15/f00/f00.png) Necesita API backend      | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Básico, necesita plugins | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy buena, con Mongoose   |
-| **Características**         | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Incluye admin, ORM, autenticación  | ![#f00](https://placehold.co/15x15/f00/f00.png) Solo para UI              | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Muy básico, extensible  | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy flexible, extensible  |
+| Criterio                                | Django                                                                                           | React                                                                                   | Flask                                                                                              | Node.js (Express)                                                                             |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Facilidad de Desarrollo**       | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta (estructura MVC, herramientas integradas)     | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Media (requiere configuración adicional) | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Media (mayor flexibilidad, pero más configuración) | ![#f00](https://placehold.co/15x15/f00/f00.png) Baja (requiere más conocimiento de JavaScript) |
+| **Curva de Aprendizaje**        | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Moderada                              | ![#f00](https://placehold.co/15x15/f00/f00.png) Alta (solo front-end)                   | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Moderada                                     | ![#f00](https://placehold.co/15x15/f00/f00.png) Alta                                 |
+| **Soporte de la Comunidad**       | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Extenso                              | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy grande, activa                    | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Moderada                                     | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Grande, activa                            |
+| **Escalabilidad**            | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                                | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta                           | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Limitada sin plugins                               | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Alta, con Microservices                        |
+| **Rendimiento**             | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Bueno                               | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Excelente (renderizado en el cliente)     | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Bueno                                       | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Excelente                               |
+| **Adecuación a MongoDB**       | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Buena (integración con Djongo)                  | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Buena (librerías disponibles)            | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Buena (librerías disponibles)                       | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Buena (librerías disponibles)                  |
+| **Integración con BD**        | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Excelente soporte para SQL y NoSQL                 | ![#f00](https://placehold.co/15x15/f00/f00.png) Necesita API backend                   | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Básico, necesita plugins                            | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy buena, con Mongoose                        |
+| **Características**          | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Incluye admin, ORM, autenticación                | ![#f00](https://placehold.co/15x15/f00/f00.png) Solo para UI                       | ![#ff0](https://placehold.co/15x15/ff0/ff0.png) Muy básico, extensible                             | ![#0f0](https://placehold.co/15x15/0f0/0f0.png) Muy flexible, extensible                       |
 
 Django fue seleccionado por su robustez y su capacidad para manejar tanto la lógica del backend como la integración con múltiples tipos de bases de datos. Además, Django ofrece un sistema de administración incorporado que facilita la gestión de datos y usuarios.
 
@@ -112,6 +117,8 @@ universitydb = psycopg2.connect(
 ```
 
 #### Modelado de Datos en MongoDB
+
+![modelo nosql](docs/Eventos_MongoDB.drawio.png)
 
 Los documentos de MongoDB se definieron para incluir todos los detalles necesarios de eventos, usuarios y comentarios:
 
@@ -165,6 +172,7 @@ def get_conferencistas(request):
 ```
 
 ### Consideraciones finales
+
 * Se implementaron medidas de seguridad, como el cifrado de contraseñas y la protección contra ataques CSRF, para garantizar la seguridad de los datos de los usuarios.
 * Se utilizó un middleware de autenticación para restringir el acceso a ciertas funcionalidades solo a usuarios autenticados.
 * Se implementó un sistema de búsqueda de eventos por título y categorías para facilitar la navegación de los usuarios.
