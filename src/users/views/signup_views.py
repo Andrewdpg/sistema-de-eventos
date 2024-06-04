@@ -87,8 +87,8 @@ def signup_validation_view(request, codigo_urlsafe):
         if auth_code.code == user_auth_code:
             return redirect('signup_employee', codigo_urlsafe=codigo_urlsafe, codigo_auth=user_auth_code)
         else:
-            err = 'El codigo ingresado no es valido'
-            return render(request, 'users/auth_code.html', {'form': form, 'err': err})
+            msg = 'El codigo ingresado no es valido'
+            return render(request, 'users/auth_code.html', {'form': form, 'msg': msg})
 
     else:
         form = UserCreationForm_SecondStage()

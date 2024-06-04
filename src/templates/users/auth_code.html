@@ -20,6 +20,11 @@
                     {{ code_field }}
                 {% endfor %}
             </div>
+            {% if msg %}
+                <small class="error">{{ msg }}</small>
+                {% else %}
+                <small class="error"></small>
+            {% endif %}
             <button type="submit" class="btn btn-success">Confirmar Codigo</button>
         </form>
     </div>
