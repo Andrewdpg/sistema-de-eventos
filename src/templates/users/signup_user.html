@@ -24,26 +24,27 @@
             {{ form.password1 }}
             {{ form.password2 }}
             
-            {{ form.tipo_empleado }}
+            <div class="relation-container">
+                <p>Tipo de realacion <span class="text-decoration"> (con la universidad)</span></p>
+                {{ form.tipo_empleado }}
+            </div>
             
-            <div>
-                <label for="pais">pais</label>
-                <select name="paises" id="paises">
-                    <option value="0">Pais</option>
-                    {% for pais in paises %}
-                    <option value="{{ pais.0 }}" data="{{ pais.1 }}">{{ pais.1 }}</option>            
-                    {% endfor %}
-                </select>
-                
-                <label for="departamento">departamento</label>
-                <select name="departamentos" id="departamentos">
-                    <option value="0">Departamento</option>
-                </select>
-                
-                <label for="ciudad">ciudad</label>
-                <select name="ciudades" id="ciudades">
-                    <option value="0">Ciudad</option>
-                </select>
+            <div id="nacimiento-container">
+                <p>Lugar de nacimiento</p>
+                <div class="nacimiento-subcontainer">
+                    <select name="paises" id="paises">
+                        <option value="0">Pais</option>
+                        {% for pais in paises %}
+                        <option value="{{ pais.0 }}" data="{{ pais.1 }}">{{ pais.1 }}</option>            
+                        {% endfor %}
+                    </select>                
+                    <select name="departamentos" id="departamentos">
+                        <option value="0">Departamento</option>
+                    </select>                
+                    <select name="ciudades" id="ciudades">
+                        <option value="0">Ciudad</option>
+                    </select>
+                </div>
             </div>
     
             <small style="color: red;">{{ err }}</small>

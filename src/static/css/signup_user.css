@@ -23,8 +23,8 @@ h1 {
 
 button, a {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #9D4EDD;
+	background-color: #9D4EDD;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -65,3 +65,56 @@ input {
 	width: 100%;
 }
 
+div#nacimiento-container {
+	width: 580px;
+}
+
+div.nacimiento-subcontainer {
+	display: flex;
+	width: 100%;
+	gap: 16px;
+}
+
+.nacimiento-subcontainer select {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	width: 100%;
+}
+
+p {
+	display: flex;
+	text-align: left;
+	margin: 8px 0 8px 0;
+	font-weight: bold;
+}
+
+select#paises {
+	width: 25%;
+}
+
+select#ciudades {
+	width: 25%;
+}
+
+select#departamentos {
+	width: 50%;
+}
+
+.relation-container {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin: 8px 0;
+}
+
+.relation-container select {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	width: 44%;
+}
+
+.text-decoration {
+	font-weight: 200;
+}
