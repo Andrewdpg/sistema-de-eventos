@@ -38,8 +38,8 @@ def signup_first_stage(request):
         user = collection.find_one({'$or': [{'identificacion': identificacion}, {'email': email}]})
 
         if user:
-            err = "La identificación o email ya se encuentran registrados"
-            return render(request, 'users/signup.html', {'form': form, 'err': err})
+            msg = "Estas credenciales ya se encuentran registradas"
+            return render(request, 'users/signup.html', {'form': form, 'msg': msg})
             
         # Busqueda: Se busca en la base de datos de la universidad, para ver si el id y el email que se ve van a emplear ya estan en la db.
         cur = universitydb.cursor()
@@ -62,7 +62,7 @@ def signup_first_stage(request):
                 return redirect('signup_auth', codigo_urlsafe=codigo_urlsafe)
             
             else:
-                err = "La identificación o email no coinciden"
+                err = "La credenciales no coinciden"
                 return render(request, 'users/signup.html', {'form': form, 'err': err})   
                      
         else:
@@ -87,8 +87,8 @@ def signup_validation_view(request, codigo_urlsafe):
         if auth_code.code == user_auth_code:
             return redirect('signup_employee', codigo_urlsafe=codigo_urlsafe, codigo_auth=user_auth_code)
         else:
-            err = 'El codigo ingresado no es valido'
-            return render(request, 'users/auth_code.html', {'form': form, 'err': err})
+            msg = 'El codigo ingresado no es valido'
+            return render(request, 'users/auth_code.html', {'form': form, 'msg': msg})
 
     else:
         form = UserCreationForm_SecondStage()

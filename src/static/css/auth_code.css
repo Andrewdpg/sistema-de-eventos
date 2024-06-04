@@ -33,14 +33,13 @@ p {
 button, a {
     margin: 20px;
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #9D4EDD;
+	background-color: #9D4EDD;
 	color: #FFFFFF;
-	font-size: 12px;
+	font-size: 16px;
 	font-weight: bold;
 	padding: 12px 45px;
 	letter-spacing: 1px;
-	text-transform: uppercase;
 	transition: transform 80ms ease-in;
 }
 
@@ -86,4 +85,15 @@ form {
     height: 56px;
     text-align: center;
     font-size: 24px;
+}
+
+small.error {
+	color: red;
+	font-size: 14px;
+	margin-top: 5px;
+	height: 32px;
+}
+
+button.btn {
+	margin: 0;
 }

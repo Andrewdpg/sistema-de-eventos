@@ -55,8 +55,8 @@ p {
 
 button, a {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #9d4edd;
+	background-color: #9d4edd;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -124,7 +124,7 @@ input {
 }
 
 .event-categories p {
-    background-color: #6b6b6b;
+    background-color: #5A189A;
     color: #FFFFFF;
     border-radius: 8px;
     padding: 4px 8px;
@@ -148,7 +148,7 @@ input {
     font-weight: 400px;
     font-size: 14px;
     padding: 8px;
-    background-color: aqua;
+    background-color: #E0AAFF;
     border-radius: 8px;
 }
 
@@ -176,7 +176,7 @@ h3 {
 
 .text-decorator-3 {
     font-weight: bold;
-    color:#36a1af;
+    color:#C77DFF;
     font-style: italic;
 }
 
