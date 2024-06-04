@@ -161,3 +161,8 @@ def calculate_recommendations(identification, events, today):
     users.update_one({'identificacion': identification}, {'$set': {'recomendaciones': event_scores}}, upsert=True)
 
     return event_scores
+
+def validate_permissions(user, permission):
+    user = users.find_one({'identificacion': str(user), 'permisos': {'$in': [permission]}})
+
+    return user is not None

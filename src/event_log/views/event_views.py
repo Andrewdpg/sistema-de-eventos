@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from bson.objectid import ObjectId
 from connections import universitydb, evento, users
 from mongodb_documents import comentario_doc
-from event_management.endpoints import recommend_events
+from event_management.endpoints import recommend_events, validate_permissions
+from django.contrib.auth.decorators import user_passes_test
 import re
 
 from datetime import datetime, timedelta
@@ -51,6 +52,8 @@ def event_detail(request, event_id):
     usuario = request.user.identificacion
     nombre_usuario = request.user.nombre_usuario
 
+    can_register_attendance = validate_permissions(usuario, 'registrar_asistencia')
+
     if request.method == 'POST':
 
         if 'submit-comment' in request.POST:
@@ -64,12 +67,11 @@ def event_detail(request, event_id):
                 fecha=fecha, 
                 comentario=comentario, 
             )
-            
+
             # Insert: Ser inserta un comentario del usuario en un evento en especifico
             evento.update_one({'_id': ObjectId(event_id)}, {'$push': {'comentarios': comentario_to_i}})
-            return redirect('view_event', event_id=event_id)
-        
-        elif 'submit-attendance' in request.POST:
+
+        elif 'submit-attendance' in request.POST and can_register_attendance:
             asistente = evento.find_one({'_id': ObjectId(event_id), 'asistentes.identificacion': {'$in': [usuario]}})
 
             if asistente is not None:
@@ -77,8 +79,6 @@ def event_detail(request, event_id):
                     {'_id': ObjectId(event_id), 'asistentes.identificacion': usuario},
                     {'$set': {'asistentes.$.estado_asistencia': 'PRESENCIAL'}})
 
-            return redirect('view_event', event_id=event_id)
-        
         elif 'submit-register' in request.POST:
             asistente = evento.find_one({'_id': ObjectId(event_id), 'asistentes.identificacion': {'$in': [usuario]}})
 
@@ -89,14 +89,16 @@ def event_detail(request, event_id):
                 }
 
                 evento.update_one({'_id': ObjectId(event_id)}, {'$push': {'asistentes': info_user}})
-            
-            return redirect('view_event', event_id=event_id)
-        
+
+        return redirect('view_event', event_id=event_id)
+
     else: 
         # Busqueda: Se hace una busqueda de un evento en especifico por su _id
         event = evento.find_one({'_id' : ObjectId(event_id)})
-        return render(request, 'event_log/event_detail.html', {'event': event})
 
+        return render(request, 'event_log/event_detail.html', {'event': event, 'can_register_attendance': can_register_attendance})
+
+@user_passes_test(lambda u: validate_permissions(u,'crear_evento'))
 def create_event(request):
     cur = universitydb.cursor()
 
@@ -110,5 +112,5 @@ def create_event(request):
     facultades = cur.fetchall()
     
     cur.close()
-        
+
     return render(request, 'event_log/create_event.html', {'programas': programas, 'paises': paises, 'facultades': facultades})

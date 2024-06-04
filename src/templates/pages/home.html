@@ -17,6 +17,9 @@
             
             <div class="options-container">
                 <a href="{% url 'show_events' %}" class="btn">Eventos</a>
+                {% if can_create_event %}
+                <a href="{% url 'create_event_view' %}" class="btn">Crear evento</a>
+                {% endif %}
                 <a href="{% url 'profile' %}">Perfil</a>
                 <a href="{% url 'signout' %}" class="btn">Cerrar Sesión</a>
             </div>    
