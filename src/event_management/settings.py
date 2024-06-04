@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
-    'university',
     'event_log',
     'pages'
 ]
@@ -95,19 +94,11 @@ DATABASES = {
             'host': os.getenv('DJANGO_HOST'),
         }  
     },
-    'university_db': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'university-db',
-        'USER': 'university-admin',
-        'PASSWORD': 'university-admin',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
 }
 
 DATABASES['default'] = DATABASES['django_db']
 
-DATABASE_ROUTERS = ['routers.university_router.UniversityRouter', 'routers.default_router.DefaultRouter']
+DATABASE_ROUTERS = ['routers.default_router.DefaultRouter']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
