@@ -23,8 +23,8 @@ h1 {
 
 button, a {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #9d4edd;
+	background-color: #9d4edd;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -32,6 +32,7 @@ button, a {
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
+	margin-top: 12px;
 }
 
 button:active {
@@ -71,4 +72,8 @@ input {
 	width: 768px;
 	max-width: 100%;
     padding: 48px 0;
+}
+
+form h1 {
+	margin-bottom: 16px;
 }
